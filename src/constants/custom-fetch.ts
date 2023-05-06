@@ -23,8 +23,6 @@ export const axiosClient = (token?: string) => {
       return response;
     },
     (error) => {
-      const status = error.response.data.statusCode;
-      const responseMessage = error.response.data.message;
       console.log(error.response);
       return error.response;
     }

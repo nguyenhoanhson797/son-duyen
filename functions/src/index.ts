@@ -9,6 +9,11 @@ const guestsCollection = db.collection("guests");
 // POST endpoint to add a new guest
 export const addGuest =
 functions.https.onRequest(async (request, response) => {
+  // Set CORS headers
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'POST');
+  response.set('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const {name, email, phone} = request.body;
     const guest = {name, email, phone};
@@ -24,6 +29,11 @@ functions.https.onRequest(async (request, response) => {
 // PATCH endpoint to update an existing guest
 export const updateGuest =
 functions.https.onRequest(async (request, response) => {
+  // Set CORS headers
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'POST');
+  response.set('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const {id} = request.params;
     const {name, email, phone} = request.body;
@@ -39,6 +49,11 @@ functions.https.onRequest(async (request, response) => {
 // GET-one endpoint to retrieve a single guest by ID
 export const getGuestById =
 functions.https.onRequest(async (request, response) => {
+  // Set CORS headers
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'POST');
+  response.set('Access-Control-Allow-Headers', 'Content-Type');
+  
   try {
     const {id} = request.params;
     const doc = await guestsCollection.doc(id).get();
@@ -57,6 +72,11 @@ functions.https.onRequest(async (request, response) => {
 // GET-all endpoint to retrieve all guests
 export const getAllGuests =
 functions.https.onRequest(async (request, response) => {
+  // Set CORS headers
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'POST');
+  response.set('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const snapshot = await guestsCollection.get();
     const guests = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data()}));
@@ -70,6 +90,11 @@ functions.https.onRequest(async (request, response) => {
 // DELETE endpoint to delete an existing guest
 export const deleteGuest =
 functions.https.onRequest(async (request, response) => {
+  // Set CORS headers
+  response.set('Access-Control-Allow-Origin', '*');
+  response.set('Access-Control-Allow-Methods', 'POST');
+  response.set('Access-Control-Allow-Headers', 'Content-Type');
+  
   try {
     const {id} = request.params;
     await guestsCollection.doc(id).delete();
