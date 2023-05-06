@@ -2,7 +2,7 @@ import { message } from "antd";
 import axios from "axios";
 import { NavigateFunction } from "react-router-dom";
 
-export const axiosClient = (token: string, navigate?: NavigateFunction, disabledErrorHandler?: boolean) => {
+export const axiosClient = (token?: string) => {
   const instance = axios.create({
     headers: {
       "content-type": "application/json",
