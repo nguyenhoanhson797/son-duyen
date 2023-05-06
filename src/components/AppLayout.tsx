@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { message, Card, Button } from 'antd';
-import { GuestType, addGuest, appService } from '../constants/services';
+import { GuestType, appService } from '../constants/services';
 import { axiosServiceCheck } from '../constants/axios-service-check';
 
 const AppLayout = () => {
@@ -15,6 +15,7 @@ const AppLayout = () => {
                     res: res,
                     followUpAction: () => {
                         message.success('Lấy dữ liệu thành công')
+                        console.log(res);
                         setData(res.data.data)
                     }
                 })
@@ -40,11 +41,7 @@ const AppLayout = () => {
                 extra={
                     <Button
                         type='primary'
-                        onClick={() => addGuest({
-                            email: '',
-                            name: 'test',
-                            phone: ''
-                        })}
+                        onClick={() => handleCallService()}
                     >
                         Lấy dữ liệu
                     </Button>

@@ -1,5 +1,5 @@
 export const APP_URL = 'https://wedding-invitation-98d6a.web.app/'
-export const addGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/addGuest'
+export const addGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/createGuest'
 export const deleteGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/deleteGuest'
 export const getAllGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/getAllGuests'
 export const getGuestByIdEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/getGuestById'

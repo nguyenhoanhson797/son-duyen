@@ -1,6 +1,4 @@
-import { message } from "antd"; 
 import axios from "axios";
-import { NavigateFunction } from "react-router-dom";
 
 export const axiosClient = (token?: string) => {
   const instance = axios.create({
@@ -19,7 +17,6 @@ export const axiosClient = (token?: string) => {
   );
   instance.interceptors.response.use(
     (response) => {
-      //message.success("Success"); //xử lý success ở đây ko đc vì ko xác định đc method của request, nên phải xử lý bên gọi hàm
       return response;
     },
     (error) => {
