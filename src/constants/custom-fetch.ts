@@ -6,15 +6,7 @@ export const axiosClient = (token?: string) => {
       "content-type": "application/json",
     },
   });
-  instance.interceptors.request.use(
-    async function (config) {
-      config.headers.Authorization = `Bearer ${token}`;
-      return config;
-    },
-    async function (error) {
-      return Promise.reject(error);
-    }
-  );
+  
   instance.interceptors.response.use(
     (response) => {
       return response;

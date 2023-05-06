@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { message, Card, Button } from 'antd';
+import { message, Card, Button, Spin } from 'antd';
 import { GuestType, appService } from '../constants/services';
 import { axiosServiceCheck } from '../constants/axios-service-check';
+import TableApp from './Table.App';
+import DrawerApp from './Drawer.App';
+
+export interface OpenFormDrawerType{
+    action: 'create' | 'edit'
+    data?: GuestType,
+}
 
 const AppLayout = () => {
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
+    const [openFormDrawer, setOpenFormDrawer] = useState<OpenFormDrawerType | undefined>(undefined)
 
     const handleCallService = () => {
         setIsLoading(true)
@@ -15,7 +23,6 @@ const AppLayout = () => {
                     res: res,
                     followUpAction: () => {
                         message.success('Lấy dữ liệu thành công')
-                        console.log(res);
                         setData(res.data.data)
                     }
                 })
@@ -25,6 +32,9 @@ const AppLayout = () => {
             })
     }
 
+    useEffect(() => {
+        handleCallService()
+    }, [])
 
     return (
         <div
@@ -41,14 +51,34 @@ const AppLayout = () => {
                 extra={
                     <Button
                         type='primary'
-                        onClick={() => handleCallService()}
+                        onClick={() => setOpenFormDrawer({
+                            action: 'create'
+                        })}
                     >
-                        Lấy dữ liệu
+                        Thêm khách mời
                     </Button>
                 }
             >
-                
+                <Spin
+                    delay={300}
+                    tip='Đang tải dữ liệu'
+                    spinning={isLoading}
+                >
+                    <TableApp
+                        data={data}
+                        setData={setData}
+                        setIsLoading={setIsLoading}
+                        handleCallService={handleCallService}
+                        setOpenFormDrawer={setOpenFormDrawer}
+                    />
+                </Spin>
             </Card>
+
+            <DrawerApp 
+                openFormDrawer={openFormDrawer}
+                setOpenFormDrawer={setOpenFormDrawer}
+                handleCallService={handleCallService}
+            />
         </div>
     );
 };

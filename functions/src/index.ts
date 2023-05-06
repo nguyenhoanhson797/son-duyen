@@ -11,12 +11,6 @@ interface GuestTypeAll {
   phone: number
 }
 
-interface GuestType {
-  name: string
-  email: string
-  phone: number
-}
-
 admin.initializeApp();
 
 // POST endpoint to add a new guest
@@ -34,7 +28,6 @@ functions.https.onRequest(async (req, res) => {
   });
 });
 
-
 // PATCH endpoint to update an existing guest
 exports.updateGuest =
 functions.https.onRequest(async (req, res) => {
@@ -50,7 +43,6 @@ functions.https.onRequest(async (req, res) => {
     }
   });
 });
-
 
 // GET-one endpoint to retrieve a single guest by ID
 exports.getGuest =
@@ -72,25 +64,50 @@ functions.https.onRequest(async (req, res) => {
   });
 });
 
-
 // GET-all endpoint to retrieve all guests
 exports.getAllGuests =
 functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const guests = await admin.firestore().collection("guests").get();
+      const pageSize =
+      req.query.pageSize ?
+        parseInt(req.query.pageSize as string) : 10;
+      const pageToken = req.query.pageToken ?
+        req.query.pageToken as string : "";
+
+      let query =
+      admin.firestore().collection(
+        "guests"
+      ).limit(pageSize);
+
+      if (pageToken) {
+        query = query.startAfter(pageToken);
+      }
+
+      const guests = await query.get();
       const allGuests: GuestTypeAll[] = [];
       guests.forEach((guest) => {
-        allGuests.push({id: guest.id, ...guest.data() as GuestType});
+        allGuests.push({id: guest.id, ...guest.data()} as GuestTypeAll);
       });
-      res.status(200).send(allGuests);
+
+      const nextPageToken =
+      guests.docs.length === pageSize ?
+        guests.docs[guests.docs.length - 1] : null;
+
+      const previousPageToken = pageToken ?
+        guests.docs[0] : null;
+
+      res.status(200).send({
+        data: allGuests,
+        nextPageToken,
+        previousPageToken,
+      });
     } catch (error) {
       res.status(400).send(`Error getting guests: ${error}`);
     }
   });
 });
-
 
 // DELETE endpoint to delete an existing guest
 exports.deleteGuest =
@@ -102,7 +119,7 @@ functions.https.onRequest(async (req, res) => {
       await admin.firestore().collection("guests").doc(guestId).delete();
       res.status(200).send(`Guest with ID: ${guestId} deleted`);
     } catch (error) {
-      res.status(400).send(`Error deleting guest: ${error}`);
+      res.status(400).send(`Error deleting guest: ${req.params} ${req.params.id} ${error}`);
     }
   });
 });
