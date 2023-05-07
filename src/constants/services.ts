@@ -43,9 +43,9 @@ export const appService = () => {
         return response;
     }
 
-    const getKhachMoi = async (khachMoiId: string) => {
+    const getKhachMoi = async (id: string) => {
         const response = await axios.get<GuestType>(
-            `${getGuestByIdEndpoint}/${khachMoiId}`
+            `${getGuestByIdEndpoint}?id=${id}`
         );
         return response;
     }
@@ -57,16 +57,16 @@ export const appService = () => {
         return response;
     }
 
-    const patchKhachMoi = async (khachMoiId: string, body: updateGuestTypeDto) => {
+    const patchKhachMoi = async (id: string, body: updateGuestTypeDto) => {
         const response = await axios.patch<GuestType>(
-            `${updateGuestEndpoint}/${khachMoiId}`, body
+            `${updateGuestEndpoint}?id=${id}`, body
         )
         return response;
     }
 
-    const deleteKhachMoi = async (khachMoiId: string) => {
+    const deleteKhachMoi = async (id: string) => {
         const response = await axios.delete<GuestType>(
-            `${deleteGuestEndpoint}/${khachMoiId}`
+            `${deleteGuestEndpoint}?id=${id}`
         );
         return response;
     }

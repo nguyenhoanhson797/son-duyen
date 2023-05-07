@@ -34,7 +34,7 @@ functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const guestId = req.params.id;
+      const guestId = req.query.id as string;
       const guest = req.body;
       await admin.firestore().collection("guests").doc(guestId).update(guest);
       res.status(200).send(`Guest with ID: ${guestId} updated`);
@@ -50,7 +50,7 @@ functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const guestId = req.params.id;
+      const guestId = req.query.id as string;
       const guest =
       await admin.firestore().collection("guests").doc(guestId).get();
       if (!guest.exists) {
@@ -115,11 +115,11 @@ functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const guestId = req.params.id;
+      const guestId = req.query.id as string;
       await admin.firestore().collection("guests").doc(guestId).delete();
       res.status(200).send(`Guest with ID: ${guestId} deleted`);
     } catch (error) {
-      res.status(400).send(`Error deleting guest: ${req.params} ${req.params.id} ${error}`);
+      res.status(400).send(`Error updating guest: ${error}`);
     }
   });
 });
