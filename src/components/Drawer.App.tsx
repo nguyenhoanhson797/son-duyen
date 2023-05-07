@@ -93,6 +93,7 @@ const DrawerApp = ({
             open={!!openFormDrawer}
             onClose={() => setOpenFormDrawer(undefined)}
             title={getDrawerTitle()}
+            width={''}
         >
             <Form
                 name='info'
@@ -124,7 +125,12 @@ const DrawerApp = ({
                                 name='phone'
                                 style={{margin: 0}}
                             >
-                                <InputNumber controls={false} placeholder='nhập số điện thoại' addonBefore={'+84'} />
+                                <InputNumber 
+                                    controls={false} 
+                                    placeholder='nhập số điện thoại' 
+                                    addonBefore={'+84'} 
+                                    style={{width: '100%'}}    
+                                />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -139,6 +145,20 @@ const DrawerApp = ({
                                 style={{margin: 0}}
                             >
                                 <Input placeholder='nhập email' />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={[6,6]}>
+                        <Col span={24} >
+                            Ghi chú:
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                name='note'
+                                style={{margin: 0}}
+                            >
+                                <Input.TextArea placeholder='Điền ghi chú' autoSize={{minRows: 2}} />
                             </Form.Item>
                         </Col>
                     </Row>

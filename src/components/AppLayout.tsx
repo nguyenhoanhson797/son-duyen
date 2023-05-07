@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { message, Card, Button, Spin } from 'antd';
+import { message, Card, Button, Spin, Space } from 'antd';
 import { GuestType, appService } from '../constants/services';
 import { axiosServiceCheck } from '../constants/axios-service-check';
 import TableApp from './Table.App';
 import DrawerApp from './Drawer.App';
+import { PlusOutlined } from '@ant-design/icons'
+import { useWindowSize } from '../constants/window-size-hook';
+import SearchButtons from './SearchButtons';
+import { searchQuery } from '../constants/services';
+import { debounce } from 'lodash';
+import { url } from 'inspector';
 
 export interface OpenFormDrawerType{
     action: 'create' | 'edit'
     data?: GuestType,
+}
+
+const mirrorStyle: React.CSSProperties = {
+    background: "linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%), url('your-image-url') center center no-repeat",
+    backgroundSize: 'cover',
+    backdropFilter: 'blur(5px)',
+    border: 'none'
 }
 
 const AppLayout = () => {
@@ -15,9 +28,12 @@ const AppLayout = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [openFormDrawer, setOpenFormDrawer] = useState<OpenFormDrawerType | undefined>(undefined)
 
-    const handleCallService = () => {
+    const windowSize = useWindowSize()
+    const isSmallSize = windowSize.width && windowSize.width <= 800
+
+    const handleCallService = (query?: searchQuery) => {
         setIsLoading(true)
-        appService().getListKhachMoi()
+        appService().getListKhachMoi(query)
             .then(res => {
                 axiosServiceCheck({
                     res: res,
@@ -32,6 +48,19 @@ const AppLayout = () => {
             })
     }
 
+    const debounceGetRequestTypeData = debounce((value: string | undefined) => {
+        if(!value){
+            handleCallService()
+            return
+        }
+
+        handleCallService({name: value})
+    }, 500, {maxWait: 800})
+
+    function getGuestData (value: string | undefined) {
+        debounceGetRequestTypeData(value)
+    }
+
     useEffect(() => {
         handleCallService()
     }, [])
@@ -42,21 +71,52 @@ const AppLayout = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '100vw',
-                height: '100vh'
+                maxWidth: '100vw',
+                height: '100vh',
+                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/background-app-3.jpg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
             }}
         >
             <Card
-                title='Danh sách'
+                title={'Danh sách'}
+                size={isSmallSize ? 'small' : undefined}
+                style={{
+                    width: isSmallSize ? '100vw' : undefined,
+                    margin: 20,
+                    ...mirrorStyle
+                }}
                 extra={
-                    <Button
-                        type='primary'
-                        onClick={() => setOpenFormDrawer({
-                            action: 'create'
-                        })}
-                    >
-                        Thêm khách mời
-                    </Button>
+                    <Space size={4}>
+                        <SearchButtons
+                            collapse={isSmallSize ? true : false}
+                            sizeBreakpoint={800}
+                            Props={{
+                                onSearch: (value) => {
+                                    if(value.trim().length === 0){
+                                        return
+                                    }
+                                    handleCallService({name: value})
+                                },
+                                onChange: (x) => getGuestData(x.target.value),
+                            }}
+                        />
+
+                        <Button
+                            type='primary'
+                            onClick={() => setOpenFormDrawer({
+                                action: 'create'
+                            })}
+                            icon={<PlusOutlined />}
+                            size={isSmallSize ? 'small' : undefined}
+                        >
+                            {isSmallSize ? (
+                                'Thêm'
+                            ) : (
+                                'Thêm khách mời'
+                            )}
+                        </Button>
+                    </Space>
                 }
             >
                 <Spin

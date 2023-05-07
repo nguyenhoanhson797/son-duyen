@@ -5,7 +5,7 @@ import { ColumnsType } from 'antd/es/table';
 import { axiosServiceCheck } from '../constants/axios-service-check';
 import { OpenFormDrawerType } from './AppLayout';
 import { EditOutlined, DeleteOutlined, MoreOutlined } from '@ant-design/icons'
-import { render } from '@testing-library/react';
+import { useWindowSize } from '../constants/window-size-hook';
 
 interface IProps {
     data: GuestType[] | undefined
@@ -23,6 +23,9 @@ const TableApp = ({
     setOpenFormDrawer
 
 }: IProps) => {
+
+    const windowSize = useWindowSize()
+    const isSmallSize = windowSize.width && windowSize.width <= 800
 
     const handleDelete = (id: string) => {
         Modal.confirm({
@@ -92,7 +95,7 @@ const TableApp = ({
         {
             title: 'Tên',
             dataIndex: 'name',
-            align: 'center',
+            align: 'left',
             render: (value: string, record: GuestType) => (
                 <a onClick={() => handleEdit(record)}>
                     {value}
@@ -102,11 +105,21 @@ const TableApp = ({
         {
             title: 'Số điện thoại',
             dataIndex: 'phone',
-            align: 'center'
+            align: 'center',
+            render: value => (
+                value ? (
+                    <span> {`+84 ${value}`} </span>
+                ) : ('')
+            )
         },
         {
             title: 'Email',
             dataIndex: 'email',
+            align: 'center'
+        },
+        {
+            title: 'Ghi chú',
+            dataIndex: 'note',
             align: 'center'
         },
         {
@@ -127,7 +140,8 @@ const TableApp = ({
             rowKey={rec => rec.id}
             columns={columns}
             pagination={false}
-            scroll={{x: 900}}
+            scroll={{x: 800}}
+            size={isSmallSize ? 'small' : undefined}
         />
     );
 };

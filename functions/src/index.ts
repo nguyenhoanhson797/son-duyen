@@ -1,15 +1,9 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as cors from "cors";
+import {GuestType} from "../../src/constants/services";
 
 const corsHandler = cors({origin: true});
-
-interface GuestTypeAll {
-  id: string
-  name: string
-  email: string
-  phone: number
-}
 
 admin.initializeApp();
 
@@ -74,23 +68,30 @@ functions.https.onRequest(async (req, res) => {
       req.query.pageSize ?
         parseInt(req.query.pageSize as string) : 10;
       const pageToken = req.query.pageToken ?
-        req.query.pageToken as string : "";
+        req.query.pageToken as string : undefined;
+      const searchQuery = req.query.name ?
+        req.query.name as string : undefined;
 
-      let query =
-      admin.firestore().collection(
-        "guests"
-      ).limit(pageSize);
-
-      if (pageToken) {
-        query = query.startAfter(pageToken);
+      const collectionRef = admin.firestore().collection("guests");
+      let query: admin.firestore.Query<admin.firestore.DocumentData> =
+      collectionRef;
+      if (searchQuery) {
+        query = collectionRef.where(
+          "name", ">=", searchQuery
+        ).where(
+          "name", "<", searchQuery + "\uf8ff"
+        );
       }
-
+      query = query.limit(pageSize);
+      if (pageToken) {
+        const startAfterDoc = await collectionRef.doc(pageToken).get();
+        query = query.startAfter(startAfterDoc);
+      }
       const guests = await query.get();
-      const allGuests: GuestTypeAll[] = [];
+      const allGuests: GuestType[] = [];
       guests.forEach((guest) => {
-        allGuests.push({id: guest.id, ...guest.data()} as GuestTypeAll);
+        allGuests.push({id: guest.id, ...guest.data()} as GuestType);
       });
-
       const nextPageToken =
       guests.docs.length === pageSize ?
         guests.docs[guests.docs.length - 1] : null;

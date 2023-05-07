@@ -13,9 +13,10 @@ export type MetadataType = {
 };
 
 export type searchQuery = {
-    name: string
-    phone: number
-    email: string
+    name?: string
+    phone?: number
+    email?: string
+    pageToken?: string
 };
 
 export interface GuestType {
@@ -23,12 +24,14 @@ export interface GuestType {
     name: string
     phone: number
     email: string
+    note: string
 }
 
 export interface updateGuestTypeDto {
-    name?: string
+    name: string
     phone?: number
     email?: string
+    note: string
 }
 
 export const appService = () => {
