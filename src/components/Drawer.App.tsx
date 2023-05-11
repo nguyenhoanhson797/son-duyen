@@ -103,7 +103,7 @@ const DrawerApp = ({
                 <Space direction='vertical' style={{width: '100%'}} size={12} >
                     <Row gutter={[6,6]}>
                         <Col span={24} >
-                            {requireMark} Tên khác mời:
+                            {requireMark} Tên khách mời:
                         </Col>
                         <Col span={24}>
                             <Form.Item

@@ -1,11 +1,14 @@
 import React from 'react';
 import { GuestType, appService } from '../constants/services';
-import { Button, Dropdown, MenuProps, Modal, Table, message } from 'antd';
+import { Button, Dropdown, MenuProps, Modal, Table, message, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { axiosServiceCheck } from '../constants/axios-service-check';
 import { OpenFormDrawerType } from './AppLayout';
-import { EditOutlined, DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 import { useWindowSize } from '../constants/window-size-hook';
+import { APP_URL } from '../constants/app-config';
+import { EditOutlined, DeleteOutlined, MoreOutlined, BranchesOutlined, CopyOutlined } from '@ant-design/icons'
+
+const { Link } = Typography
 
 interface IProps {
     data: GuestType[] | undefined
@@ -72,6 +75,29 @@ const TableApp = ({
             },
             {
                 key: '2',
+                label: 'Copy link thiệp',
+                icon: <CopyOutlined />,
+                onClick: () => {
+                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.id)
+                        .then(() => {
+                            message.success('Đã copy link vào khay nhớ tạm');
+                        })
+                        .catch(() => {
+                            message.error('Hành động thất bại')
+                        })
+                }
+            },
+            {
+                key: '3',
+                label: (
+                    <span>
+                        <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' > Đi tới thiệp </Link >
+                    </span>
+                ),
+                icon: <BranchesOutlined style={{color: '#1677ff'}}/>
+            },
+            {
+                key: '4',
                 label: 'Xóa khách mời',
                 icon: <DeleteOutlined />,
                 onClick: () => handleDelete(data.id),
