@@ -1,0 +1,29 @@
+.typewriter1st:first-child {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    /* letter-spacing: .15em; */  /* Adjust as needed */
+    animation: first 2s steps(40, end);
+}
+
+.typewriter2nd:first-child {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    /* letter-spacing: .15em; */  /* Adjust as needed */
+    animation: second 4s steps(40, end);
+}
+
+  
+/* The typing effect */
+@keyframes first {
+    from { width: 0; display: none }
+    0.1% { width: 0; display: block }
+    to { width: 100%; display: block }
+}
+
+@keyframes second {
+    0% { width: 0; display: none }
+    50% { width: 0; display: none }
+    100% { width: 100%; display: block }
+}

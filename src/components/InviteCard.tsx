@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { GuestType, appService } from '../constants/services';
-import { Button, Card, Carousel, Empty, FloatButton, Modal, Space, Spin, Typography, message } from 'antd';
+import { Button, Card, Empty, FloatButton, Modal, Space, Spin, Typography, message } from 'antd';
 import { axiosServiceCheck } from '../constants/axios-service-check';
-import { CarouselRef } from 'antd/es/carousel';
-import { BookOutlined, AudioMutedOutlined, AudioOutlined } from '@ant-design/icons'
-import Sound, { ReactSoundProps } from 'react-sound';
+import { BookOutlined, AudioMutedOutlined, AudioOutlined, CloseOutlined } from '@ant-design/icons'
+import { useWindowSize } from '../constants/window-size-hook';
+import { allFontName } from './font/use-font';
+import './font/font.css'
+import './animation/writing.css'
+import './animation/all.css'
+import './animation/card.css'
 
 
 const { Title } = Typography
@@ -39,7 +43,9 @@ const musicLinks = [
 
 const InviteCard = () => {
     const { khachMoiId } = useParams()
-    const ref = useRef<any>(null)
+    const ref = useRef<HTMLAudioElement>(null)
+    const windowSize = useWindowSize()
+    const isMobileSize = windowSize.width && windowSize.width <= 960
 
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +53,12 @@ const InviteCard = () => {
     const [openModal2, setOpenModal2] = useState(false)
     const [musicPlaying, setMusicPlaying] = useState<number>(0)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
+    const [flipped, setFlipped] = useState(false);
+
+    const handleFlip = () => {
+        setFlipped(!flipped);
+    };
+
 
     const handleCallService = () => {
         if(!khachMoiId){
@@ -71,18 +83,33 @@ const InviteCard = () => {
     }
 
     const handleEnded = () => {
-        setIsPlaying(false)
+        console.log('end');
         let next = musicPlaying + 1
         if(next >= 6){
             next = 0
         }
         setMusicPlaying(next)
-        setIsPlaying(true)
+        ref.current!.load()
+        console.log('start load');
     }
+
+    useEffect(() => {
+        if(isPlaying){
+            ref.current!.play()
+        } else {
+            ref.current!.pause()
+        }
+    }, [isPlaying])
 
     useEffect(() => {
         handleCallService()
     }, [])
+
+    useEffect(() => {
+        if(!openModal2){
+            setFlipped(false)
+        }
+    }, [openModal2])
 
     return (
         <Spin spinning={isLoading} delay={300} size='large' >
@@ -94,8 +121,10 @@ const InviteCard = () => {
                     maxWidth: '100vw',
                     height: '100vh',
                     backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/background-app-2.jpg')",
-                    backgroundSize: 'cover',
+                    backgroundSize: isMobileSize ? 'contain' : 'cover',
+                    backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',
+                    position: 'relative'
                 }}
             >
                 <Modal
@@ -104,6 +133,7 @@ const InviteCard = () => {
                     closable={false}
                     style={{ width: 600 }}
                     maskStyle={mirrorStyle}
+                    className='card'
                 >
                     <Card
                         bodyStyle={{margin: 0, padding: 0}}
@@ -112,17 +142,25 @@ const InviteCard = () => {
                                 alt="img" 
                                 src="https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/background-app-4.jpg"
                             />
-                        }            
+                        }    
                     >
                         <div>
                             <Space style={{...contentStyle, width: '100%', justifyContent: 'space-between'}} direction='vertical' align='center' >
-                                <h3>Trân trọng kính mời</h3>
-                                <h1>{data?.find(x => x.id === khachMoiId)?.name}</h1>
-                                <Button onClick={() => {
-                                    setOpenModal(false)
-                                    setOpenModal2(true)
-                                    setIsPlaying(true)
-                                }} >
+                                <div className='typewriter1st'>
+                                    <h3>Xin Chào</h3>
+                                </div>
+                                <div className='typewriter2nd' style={{...allFontName.fontCharm}} >
+                                    <h1>{data?.find(x => x.id === khachMoiId)?.name}</h1>
+                                </div>
+                                <Button
+                                    onClick={() => {
+                                        setOpenModal(false)
+                                        setOpenModal2(true)
+                                        setIsPlaying(true)
+                                        ref.current!.play()
+                                    }}
+                                    style={{marginBottom: 20}}
+                                >
                                     Tiếp tục
                                 </Button>
                             </Space>
@@ -133,31 +171,85 @@ const InviteCard = () => {
                 <Modal
                     open={openModal2}
                     footer={false}
-                    closable={false}
                     onCancel={() => setOpenModal2(false)}
-                    style={{ width: 600 }}
+                    bodyStyle={{ padding: 0}}
                     maskStyle={mirrorStyle}
+                    className='card'
+                    style={{top: windowSize.width && windowSize.width <= 460 ? '10vh' : '5vh'}}
+                    closable={false}
                 >
-                    <Card
-                        bodyStyle={{margin: 0, padding: 0}}   
+                    <div
+                        className={`card-container ${flipped ? 'flipped' : ''}`}
+                        onClick={handleFlip}
                     >
-                        <Carousel>
-                            <div>
-                                <Space style={{...contentStyle, width: '100%'}} direction='vertical' align='center' >
-                                    <h3>Trân trọng kính mời</h3>
-                                    <h1>{data?.find(x => x.id === khachMoiId)?.name}</h1>
-                                </Space>
+                        <div className="card-front">
+                            <div
+                                style={{
+                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-f.svg')",
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1.42',
+                                    maxHeight: '90vh',
+                                    width: 'auto',
+                                    position: 'relative'
+                                }}
+                            >
+                                 <div className="card-hint">
+                                    Bấm để lật thiệp
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <Space style={{...contentStyle, width: '100%'}} direction='vertical' align='center' >
-                                    <h3>Đến với bữa tiệc</h3>
-                                    <h3>Tại nhà hàng Hoàng Long vào lúc ...</h3>
-                                </Space>
+                        <div className="card-back">
+                            <div
+                                style={{
+                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-b.svg')",
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1.42',
+                                    width: 'auto',
+                                    maxHeight: '90vh',
+                                    position: 'relative'
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        position: 'absolute', 
+                                        top: '25%', 
+                                        display: 'flex', 
+                                        justifyContent: 'center', 
+                                        alignItems: 'center',
+                                        width: '100%',
+                                        height: '36%',
+                                        padding: '0px 10%',
+                                        boxSizing: 'border-box',
+                                        flexWrap: 'wrap'
+                                }}
+                                >
+                                    <Typography.Title 
+                                        level={isMobileSize ? 3 : 1} 
+                                        style={{
+                                            maxWidth: '100%',
+                                            ...allFontName.fontCharm
+                                        }}
+                                    >
+                                        {data?.find(x => x.id === khachMoiId)?.name}
+                                    </Typography.Title>
+                                </div>
                             </div>
-                        </Carousel>
-                    </Card>
+                        </div>
+                    </div>
                 </Modal>
+
+                <FloatButton
+                    shape="circle"
+                    icon={<CloseOutlined />}
+                    onClick={() => setOpenModal2(false)}
+                    type='default'
+                    style={{ right: 24, display: openModal2 ? '' : 'none', zIndex: 99999}}
+                />
 
                 <FloatButton
                     shape="circle"
@@ -168,18 +260,19 @@ const InviteCard = () => {
 
                 <FloatButton
                     shape="circle"
-                    type="primary"
                     style={{ right: 24 }}
                     icon={<BookOutlined />}
+                    type='primary'
                     onClick={() => setOpenModal2(true)}
                 />
-
-                <Sound
+                
+                <audio 
                     ref={ref}
-                    url={musicLinks[musicPlaying]}
-                    playStatus={isPlaying ? 'PLAYING' : 'PAUSED'}
-                    onFinishedPlaying={handleEnded}
-                    autoLoad={true}
+                    src={musicLinks[musicPlaying]}
+                    onEnded={() => handleEnded()}
+                    onCanPlay={() => {
+                        ref.current!.play()
+                    }}
                 />
             </div>
         </Spin>
