@@ -39,6 +39,9 @@ const TableApp = ({
             okButtonProps: {
                 danger: true
             },
+            style: { padding: '20px !important' },
+            rootClassName: 'defaultModal',
+            className: 'defaultModal',
             onOk(){
                 setIsLoading(true)
                 appService().deleteKhachMoi(id)

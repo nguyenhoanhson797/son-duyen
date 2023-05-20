@@ -9,7 +9,6 @@ import { useWindowSize } from '../constants/window-size-hook';
 import SearchButtons from './SearchButtons';
 import { searchQuery } from '../constants/services';
 import { debounce } from 'lodash';
-import { url } from 'inspector';
 
 export interface OpenFormDrawerType{
     action: 'create' | 'edit'
@@ -38,7 +37,6 @@ const AppLayout = () => {
                 axiosServiceCheck({
                     res: res,
                     followUpAction: () => {
-                        message.success('Lấy dữ liệu thành công')
                         setData(res.data.data)
                     }
                 })
@@ -134,7 +132,7 @@ const AppLayout = () => {
                 </Spin>
             </Card>
 
-            <DrawerApp 
+            <DrawerApp
                 openFormDrawer={openFormDrawer}
                 setOpenFormDrawer={setOpenFormDrawer}
                 handleCallService={handleCallService}

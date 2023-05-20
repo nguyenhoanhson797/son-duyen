@@ -4,9 +4,13 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
     "target": "es2017"
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "compileOnSave": true,
   "include": [

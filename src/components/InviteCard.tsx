@@ -8,9 +8,8 @@ import { useWindowSize } from '../constants/window-size-hook';
 import { allFontName } from './font/use-font';
 import './font/font.css'
 import './animation/writing.css'
-import './animation/all.css'
+import './animation/modal.css'
 import './animation/card.css'
-
 
 const { Title } = Typography
 
@@ -47,7 +46,7 @@ const InviteCard = () => {
     const windowSize = useWindowSize()
     const isMobileSize = windowSize.width && windowSize.width <= 960
 
-    const [data, setData] = useState<GuestType[] | undefined>(undefined)
+    const [data, setData] = useState<GuestType | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
     const [openModal, setOpenModal] = useState(false)
     const [openModal2, setOpenModal2] = useState(false)
@@ -68,13 +67,13 @@ const InviteCard = () => {
         }
 
         setIsLoading(true)
-        appService().getListKhachMoi()
+        appService().getKhachMoi(khachMoiId)
             .then(res => {
                 axiosServiceCheck({
                     res: res,
                     followUpAction: () => {
-                        setData(res.data.data)
-                        message.success(`Xin chào ${res?.data?.data?.find(x => x.id === khachMoiId)?.name}`)
+                        setData(res.data)
+                        message.success(`Xin chào ${res.data?.name}`)
                         setOpenModal(true)
                     }
                 })
@@ -131,9 +130,9 @@ const InviteCard = () => {
                     open={openModal}
                     footer={false}
                     closable={false}
-                    style={{ width: 600 }}
+                    style={{ width: 600, padding: 0 }}
                     maskStyle={mirrorStyle}
-                    className='card'
+                    className={'custom-modal'}
                 >
                     <Card
                         bodyStyle={{margin: 0, padding: 0}}
@@ -150,7 +149,7 @@ const InviteCard = () => {
                                     <h3>Xin Chào</h3>
                                 </div>
                                 <div className='typewriter2nd' style={{...allFontName.fontCharm}} >
-                                    <h1>{data?.find(x => x.id === khachMoiId)?.name}</h1>
+                                    <h1>{data?.name}</h1>
                                 </div>
                                 <Button
                                     onClick={() => {
@@ -172,11 +171,11 @@ const InviteCard = () => {
                     open={openModal2}
                     footer={false}
                     onCancel={() => setOpenModal2(false)}
-                    bodyStyle={{ padding: 0}}
+                    bodyStyle={{ padding: '0 !important'}}
                     maskStyle={mirrorStyle}
-                    className='card'
-                    style={{top: windowSize.width && windowSize.width <= 460 ? '10vh' : '5vh'}}
+                    style={{top: windowSize.width && windowSize.width <= 460 ? '10vh' : '5vh', padding: '0 !important'}}
                     closable={false}
+                    className={'custom-modal'}
                 >
                     <div
                         className={`card-container ${flipped ? 'flipped' : ''}`}
@@ -185,7 +184,7 @@ const InviteCard = () => {
                         <div className="card-front">
                             <div
                                 style={{
-                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-f.svg')",
+                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-f.png')",
                                     backgroundSize: 'contain',
                                     backgroundRepeat: 'no-repeat',
                                     backgroundPosition: 'center',
@@ -204,7 +203,7 @@ const InviteCard = () => {
                         <div className="card-back">
                             <div
                                 style={{
-                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-b.svg')",
+                                    backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-b.png')",
                                     backgroundSize: 'contain',
                                     backgroundRepeat: 'no-repeat',
                                     backgroundPosition: 'center',
@@ -235,7 +234,7 @@ const InviteCard = () => {
                                             ...allFontName.fontCharm
                                         }}
                                     >
-                                        {data?.find(x => x.id === khachMoiId)?.name}
+                                        {data?.name}
                                     </Typography.Title>
                                 </div>
                             </div>

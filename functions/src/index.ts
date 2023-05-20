@@ -1,9 +1,18 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as cors from "cors";
-import {GuestType} from "../../src/constants/services";
 
-const corsHandler = cors({origin: true});
+interface GuestType {
+  id: string
+  name: string
+  phone: number
+  email: string
+  note: string
+}
+
+const corsHandler = cors({
+  origin: true,
+});
 
 admin.initializeApp();
 
@@ -15,6 +24,8 @@ functions.https.onRequest(async (req, res) => {
     try {
       const guest = req.body;
       const result = await admin.firestore().collection("guests").add(guest);
+      const id = result.id;
+      await admin.firestore().collection("guests").doc(id).update({Id: id});
       res.status(201).send(`Guest created with ID: ${result.id}`);
     } catch (error) {
       res.status(400).send(`Error creating guest: ${error}`);
@@ -38,22 +49,24 @@ functions.https.onRequest(async (req, res) => {
   });
 });
 
-// GET-one endpoint to retrieve a single guest by ID
-exports.getGuest =
+// GET-all endpoint to retrieve all guests
+exports.getGuestById =
 functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const guestId = req.query.id as string;
-      const guest =
-      await admin.firestore().collection("guests").doc(guestId).get();
-      if (!guest.exists) {
-        res.status(404).send(`Guest with ID: ${guestId} not found`);
+      const collectionRef = admin.firestore().collection("guests");
+      const id = req.query.id as string;
+      const guest = collectionRef.where("Id", "==", id);
+      const data = await guest.get();
+      if (data.empty) {
+        res.status(404).send("Guest not found");
       } else {
-        res.status(200).send(guest.data());
+        const resData = data.docs[0].data();
+        res.status(200).send(resData);
       }
     } catch (error) {
-      res.status(400).send(`Error getting guest: ${error}`);
+      res.status(400).send(`Error getting guests: ${error}`);
     }
   });
 });
