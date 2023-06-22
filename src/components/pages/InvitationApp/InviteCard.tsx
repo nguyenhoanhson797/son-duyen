@@ -12,6 +12,7 @@ import '../../font/font.css'
 import '../../animation/writing.css'
 import '../../animation/modal.css'
 import '../../animation/card.css'
+import AnimationBox from './AnimationBox';
 
 const { Title } = Typography
 const { useToken } = theme
@@ -116,39 +117,23 @@ const InviteCard = () => {
         }
     }, [openModal2])
 
-    const getBackground = (imgName: string): CSSProperties => {
-        return {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            maxWidth: '100vw',
-            height: '100vh',
-            backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/${imgName}')`,
-            backgroundSize: isMobileSize ? 'contain' : 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            position: 'relative'
-        }
-    }
-
     return (
         <Spin spinning={isLoading} delay={300} size='large' >
-            <Space size={isMobileSize ? 0 : 40} direction='vertical' style={{ width: '100%'}}>
-                <div
-                    style={getBackground('background-app-2.jpg')}
-                />
-
-                <div
-                    style={getBackground('background-app-3.jpg')}
-                />
-
-                <div
-                    style={getBackground('background-app-4.jpg')}
-                />
-
-                <div
-                    style={{ ...getBackground('background-app.jpg'), backgroundSize: 'cover' }}
-                />
+            <Space 
+                size={isMobileSize ? 0 : 40} 
+                direction='vertical' 
+                style={{ 
+                    width: '100vw', 
+                    height: 'max-content', 
+                    padding: '0 10px', 
+                    boxSizing: 'border-box', 
+                    overflow: 'hidden' 
+                }}
+            >
+                <AnimationBox imgUrl='background-app-2.jpg' boxKey={1} disableAnimation />
+                <AnimationBox imgUrl='background-app-3.jpg' boxKey={2} animationSet='left' />
+                <AnimationBox imgUrl='background-app-4.jpg' boxKey={3} animationSet='right'  />
+                <AnimationBox imgUrl='background-app.jpg' boxKey={4} onlyCover animationSet='fade' />
             </Space>
 
             {/* Welcome Card */}
@@ -156,7 +141,14 @@ const InviteCard = () => {
                 open={openModal}
                 footer={false}
                 closable={false}
-                style={{ width: 600, padding: 0, borderRadius: 12, overflow: 'hidden', position: 'relative' }}
+                style={{ 
+                    width: 600, 
+                    padding: 0, 
+                    borderRadius: 12,
+                    top: isMobileSize ? 40 : undefined,
+                    overflow: 'hidden', 
+                    position: 'relative' 
+                }}
                 maskStyle={mirrorMaskStyle}
                 className={'custom-modal'}
                 bodyStyle={{
