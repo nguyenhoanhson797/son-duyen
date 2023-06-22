@@ -123,7 +123,7 @@ const InviteCard = () => {
             alignItems: 'center',
             maxWidth: '100vw',
             height: '100vh',
-            backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/${imgName}.jpg')`,
+            backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/${imgName}')`,
             backgroundSize: isMobileSize ? 'contain' : 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -135,15 +135,19 @@ const InviteCard = () => {
         <Spin spinning={isLoading} delay={300} size='large' >
             <Space size={isMobileSize ? 0 : 40} direction='vertical' style={{ width: '100%'}}>
                 <div
-                    style={getBackground('background-app-2')}
+                    style={getBackground('background-app-2.jpg')}
                 />
 
                 <div
-                    style={getBackground('background-app-3')}
+                    style={getBackground('background-app-3.jpg')}
                 />
 
                 <div
-                    style={getBackground('background-app-4')}
+                    style={getBackground('background-app-4.jpg')}
+                />
+
+                <div
+                    style={{ ...getBackground('background-app.jpg'), backgroundSize: 'cover' }}
                 />
             </Space>
 
