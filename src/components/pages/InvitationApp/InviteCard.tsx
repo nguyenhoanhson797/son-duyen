@@ -196,7 +196,7 @@ const InviteCard = () => {
                             ref.current!.play()
                         }}  
                         type='primary'
-                        style={{ marginBottom: 20, backgroundColor: themeToken['cyan-6'] }}
+                        style={{ marginBottom: 20, backgroundColor: themeToken['lime-6'] }}
                     >
                         Tiếp tục
                     </Button>
