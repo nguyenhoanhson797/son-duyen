@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { message, Card, Button, Spin, Space } from 'antd';
-import { GuestType, appService } from '../constants/services';
-import { axiosServiceCheck } from '../constants/axios-service-check';
-import TableApp from './Table.App';
-import DrawerApp from './Drawer.App';
+import { Card, Button, Spin, Space } from 'antd';
+import { GuestType, appService } from '../../../constants/services';
+import { axiosServiceCheck } from '../../../constants/axios-service-check';
+import DrawerAdminApp from './Drawer.AdminApp';
 import { PlusOutlined } from '@ant-design/icons'
-import { useWindowSize } from '../constants/window-size-hook';
-import SearchButtons from './SearchButtons';
-import { searchQuery } from '../constants/services';
+import { useWindowSize } from '../../../constants/window-size-hook';
+import { searchQuery } from '../../../constants/services';
 import { debounce } from 'lodash';
+import TableAdminApp from './Table.AdminApp';
+import SearchButtons from './SearchButtons';
 
 export interface OpenFormDrawerType{
     action: 'create' | 'edit'
@@ -22,7 +22,7 @@ const mirrorStyle: React.CSSProperties = {
     border: 'none'
 }
 
-const AppLayout = () => {
+const AdminAppLayout = () => {
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
     const [openFormDrawer, setOpenFormDrawer] = useState<OpenFormDrawerType | undefined>(undefined)
@@ -122,7 +122,7 @@ const AppLayout = () => {
                     tip='Đang tải dữ liệu'
                     spinning={isLoading}
                 >
-                    <TableApp
+                    <TableAdminApp
                         data={data}
                         setData={setData}
                         setIsLoading={setIsLoading}
@@ -132,7 +132,7 @@ const AppLayout = () => {
                 </Spin>
             </Card>
 
-            <DrawerApp
+            <DrawerAdminApp
                 openFormDrawer={openFormDrawer}
                 setOpenFormDrawer={setOpenFormDrawer}
                 handleCallService={handleCallService}
@@ -141,4 +141,4 @@ const AppLayout = () => {
     );
 };
 
-export default AppLayout;
+export default AdminAppLayout;

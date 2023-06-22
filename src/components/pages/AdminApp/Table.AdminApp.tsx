@@ -1,11 +1,11 @@
 import React from 'react';
-import { GuestType, appService } from '../constants/services';
+import { GuestType, appService } from '../../../constants/services';
 import { Button, Dropdown, MenuProps, Modal, Table, message, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { axiosServiceCheck } from '../constants/axios-service-check';
-import { OpenFormDrawerType } from './AppLayout';
-import { useWindowSize } from '../constants/window-size-hook';
-import { APP_URL } from '../constants/app-config';
+import { axiosServiceCheck } from '../../../constants/axios-service-check';
+import { OpenFormDrawerType } from './AdminAppLayout';
+import { useWindowSize } from '../../../constants/window-size-hook';
+import { APP_URL } from '../../../constants/app-config';
 import { EditOutlined, DeleteOutlined, MoreOutlined, BranchesOutlined, CopyOutlined } from '@ant-design/icons'
 
 const { Link } = Typography
@@ -18,7 +18,7 @@ interface IProps {
     setOpenFormDrawer: React.Dispatch<React.SetStateAction<OpenFormDrawerType | undefined>>
 }
 
-const TableApp = ({
+const TableAdminApp = ({
     data,
     setData,
     setIsLoading,
@@ -92,12 +92,8 @@ const TableApp = ({
             },
             {
                 key: '3',
-                label: (
-                    <span>
-                        <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' > Đi tới thiệp </Link >
-                    </span>
-                ),
-                icon: <BranchesOutlined style={{color: '#1677ff'}}/>
+                label: <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' >Đi tới thiệp</Link >,
+                icon: <BranchesOutlined style={{color: '#1677ff'}}/>,
             },
             {
                 key: '4',
@@ -126,9 +122,9 @@ const TableApp = ({
             dataIndex: 'name',
             align: 'left',
             render: (value: string, record: GuestType) => (
-                <a onClick={() => handleEdit(record)}>
+                <Typography.Link onClick={() => handleEdit(record)}>
                     {value}
-                </a>
+                </Typography.Link>
             )
         },
         {
@@ -175,4 +171,4 @@ const TableApp = ({
     );
 };
 
-export default TableApp;
+export default TableAdminApp;

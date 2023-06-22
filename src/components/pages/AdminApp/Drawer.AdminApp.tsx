@@ -1,9 +1,9 @@
 import { Button, Col, Drawer, Form, Input, InputNumber, Row, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { OpenFormDrawerType } from './AppLayout';
-import { GuestType, appService } from '../constants/services';
+import { OpenFormDrawerType } from './AdminAppLayout';
+import { GuestType, appService } from '../../../constants/services';
 import { SaveOutlined } from '@ant-design/icons'
-import { axiosServiceCheck } from '../constants/axios-service-check';
+import { axiosServiceCheck } from '../../../constants/axios-service-check';
 
 interface IProps {
     openFormDrawer: OpenFormDrawerType | undefined
@@ -13,7 +13,7 @@ interface IProps {
 
 const requireMark = <span style={{color: 'red'}}>*</span>
 
-const DrawerApp = ({
+const DrawerAdminApp = ({
     openFormDrawer,
     setOpenFormDrawer,
     handleCallService
@@ -86,6 +86,7 @@ const DrawerApp = ({
         } else {
             form.resetFields()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [openFormDrawer])
     
     return (
@@ -176,4 +177,4 @@ const DrawerApp = ({
     );
 };
 
-export default DrawerApp;
+export default DrawerAdminApp;

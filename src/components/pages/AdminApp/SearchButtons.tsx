@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SearchProps } from 'antd/es/input';
 import { Input } from 'antd';
-import { useWindowSize } from '../constants/window-size-hook';
+import { useWindowSize } from '../../../constants/window-size-hook';
 
 const { Search } = Input
 

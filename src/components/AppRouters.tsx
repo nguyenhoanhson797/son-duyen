@@ -1,20 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AppLayout from './AppLayout';
-import InviteCard from './InviteCard';
+import AdminAppLayout from './pages/AdminApp/AdminAppLayout';
 import { APP_URL } from '../constants/app-config';
+import InviteCard from './pages/InvitationApp/InviteCard';
 
 const AppRouters = () => {
     return (
         <Routes>
             <Route
-                path={'/'}
-                element={<AppLayout />}
+                path={`/admin`}
+                element={<AdminAppLayout />}
             />
 
             <Route
-                path={APP_URL}
-                element={<AppLayout />}
+                path={`${APP_URL}/admin`}
+                element={<AdminAppLayout />}
             />
 
             <Route

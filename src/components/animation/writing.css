@@ -3,7 +3,7 @@
     white-space: nowrap; /* Keeps the content on a single line */
     margin: 0 auto; /* Gives that scrolling effect as the typing happens */
     /* letter-spacing: .15em; */  /* Adjust as needed */
-    animation: first 2s steps(40, end);
+    animation: first 1.5s steps(40, end);
 }
 
 .typewriter2nd:first-child {
@@ -11,7 +11,7 @@
     white-space: nowrap; /* Keeps the content on a single line */
     margin: 0 auto; /* Gives that scrolling effect as the typing happens */
     /* letter-spacing: .15em; */  /* Adjust as needed */
-    animation: second 4s steps(40, end);
+    animation: second 3s steps(40, end);
 }
 
   
