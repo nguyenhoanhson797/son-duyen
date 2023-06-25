@@ -118,32 +118,35 @@ const InviteCard = () => {
     }, [openModal2])
 
     return (
-        <Spin spinning={isLoading} delay={300} size='large' >
-            <Space 
-                size={isMobileSize ? 0 : 40} 
-                direction='vertical' 
-                style={{ 
-                    width: '100vw', 
-                    height: 'max-content', 
-                    padding: '0 10px', 
-                    boxSizing: 'border-box', 
-                    overflow: 'hidden' 
-                }}
-            >
-                <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
-                <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} onlyCover animationSet='left' />
-                <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} onlyCover animationSet='right'  />
-                <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} onlyCover animationSet='left' />
-                <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} onlyCover animationSet='fade' />
-                <AnimationBox imgUrl='background-app-6.jpg' boxKey={6} onlyCover animationSet='right'  />
-                <AnimationBox imgUrl='background-app-7.jpg' boxKey={7} onlyCover animationSet='fade' />
-                <AnimationBox imgUrl='background-app-8.jpg' boxKey={8} onlyCover animationSet='left' />
-                <AnimationBox imgUrl='background-app-9.jpg' boxKey={9} onlyCover animationSet='right'  />
-                <AnimationBox imgUrl='background-app-10.jpg' boxKey={10} onlyCover animationSet='fade' />
-                <AnimationBox imgUrl='background-app-11.jpg' boxKey={11} onlyCover animationSet='fade' />
-                <AnimationBox imgUrl='background-app-12.jpg' boxKey={12} onlyCover animationSet='left' />
-                <AnimationBox imgUrl='background-app-13.jpg' boxKey={13} onlyCover animationSet='right'  />
-                <AnimationBox imgUrl='background-app-14.jpg' boxKey={14} onlyCover animationSet='left' />
+        <Spin spinning={isLoading} delay={300} size='large'>
+            <Space style={{ width: '100%', justifyContent: 'center' }} >
+                <Space 
+                    size={isMobileSize ? 0 : 40} 
+                    direction='vertical' 
+                    style={{ 
+                        width: isMobileSize ? '100vw' : '60vw', 
+                        height: 'max-content', 
+                        padding: '0 10px', 
+                        boxSizing: 'border-box', 
+                        overflow: 'hidden',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
+                    <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} isVertical animationSet='left' />
+                    <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} isVertical animationSet='right'  />
+                    <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} isVertical animationSet='left' />
+                    <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} isVertical animationSet='fade' />
+                    <AnimationBox imgUrl='background-app-6.jpg' boxKey={6} isVertical animationSet='right'  />
+                    <AnimationBox imgUrl='background-app-7.jpg' boxKey={7} isVertical animationSet='fade' />
+                    <AnimationBox imgUrl='background-app-8.jpg' boxKey={8} isVertical animationSet='left' />
+                    <AnimationBox imgUrl='background-app-9.jpg' boxKey={9} isVertical animationSet='right'  />
+                    <AnimationBox imgUrl='background-app-10.jpg' boxKey={10} isVertical animationSet='fade' />
+                    <AnimationBox imgUrl='background-app-11.jpg' boxKey={11} isVertical animationSet='fade' />
+                    <AnimationBox imgUrl='background-app-12.jpg' boxKey={12} isVertical animationSet='left' />
+                    <AnimationBox imgUrl='background-app-13.jpg' boxKey={13} isVertical animationSet='right'  />
+                    <AnimationBox imgUrl='background-app-14.jpg' boxKey={14} isVertical animationSet='left' />
+                </Space>
             </Space>
 
             {/* Welcome Card */}

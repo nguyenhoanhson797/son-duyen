@@ -39,12 +39,12 @@ const animationType = {
 interface IProps {
     boxKey: number
     imgUrl: string
-    onlyCover?: boolean
     disableAnimation?: boolean
     animationSet?: 'fade' | 'right' | 'left'
+    isVertical?: boolean
 }
 
-const AnimationBox = ({ boxKey, imgUrl, onlyCover, disableAnimation, animationSet }: IProps) => {
+const AnimationBox = ({ boxKey, imgUrl, disableAnimation, animationSet, isVertical }: IProps) => {
     const windowSize = useWindowSize()
     const isMobileSize = windowSize.width && windowSize.width <= 960
 
@@ -86,11 +86,12 @@ const AnimationBox = ({ boxKey, imgUrl, onlyCover, disableAnimation, animationSe
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: 'auto',
+            aspectRatio: isVertical ? 0.719 : 1.43,
+            width: '100%',
             maxWidth: '96vw',
-            height: '100vh',
+            height: 'auto',
             backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/${imgUrl}')`,
-            backgroundSize: onlyCover ? 'cover' : (isMobileSize ? 'contain' : 'cover'),
+            backgroundSize: isVertical ? 'cover' : (isMobileSize ? 'contain' : 'cover'),
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             position: 'relative'
