@@ -87,6 +87,7 @@ const AnimationBox = ({ boxKey, imgUrl, onlyCover, disableAnimation, animationSe
             justifyContent: 'center',
             alignItems: 'center',
             width: 'auto',
+            maxWidth: '96vw',
             height: '100vh',
             backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/${imgUrl}')`,
             backgroundSize: onlyCover ? 'cover' : (isMobileSize ? 'contain' : 'cover'),
