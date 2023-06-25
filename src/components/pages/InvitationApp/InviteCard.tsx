@@ -130,10 +130,20 @@ const InviteCard = () => {
                     overflow: 'hidden' 
                 }}
             >
-                <AnimationBox imgUrl='background-app-2.jpg' boxKey={1} disableAnimation />
-                <AnimationBox imgUrl='background-app-3.jpg' boxKey={2} animationSet='left' />
-                <AnimationBox imgUrl='background-app-4.jpg' boxKey={3} animationSet='right'  />
-                <AnimationBox imgUrl='background-app.jpg' boxKey={4} onlyCover animationSet='fade' />
+                <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
+                <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} onlyCover animationSet='left' />
+                <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} onlyCover animationSet='right'  />
+                <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} onlyCover animationSet='left' />
+                <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} onlyCover animationSet='fade' />
+                <AnimationBox imgUrl='background-app-6.jpg' boxKey={6} onlyCover animationSet='right'  />
+                <AnimationBox imgUrl='background-app-7.jpg' boxKey={7} onlyCover animationSet='fade' />
+                <AnimationBox imgUrl='background-app-8.jpg' boxKey={8} onlyCover animationSet='left' />
+                <AnimationBox imgUrl='background-app-9.jpg' boxKey={9} onlyCover animationSet='right'  />
+                <AnimationBox imgUrl='background-app-10.jpg' boxKey={10} onlyCover animationSet='fade' />
+                <AnimationBox imgUrl='background-app-11.jpg' boxKey={11} onlyCover animationSet='fade' />
+                <AnimationBox imgUrl='background-app-12.jpg' boxKey={12} onlyCover animationSet='left' />
+                <AnimationBox imgUrl='background-app-13.jpg' boxKey={13} onlyCover animationSet='right'  />
+                <AnimationBox imgUrl='background-app-14.jpg' boxKey={14} onlyCover animationSet='left' />
             </Space>
 
             {/* Welcome Card */}
@@ -154,7 +164,7 @@ const InviteCard = () => {
                 bodyStyle={{
                     margin: 0, 
                     padding: 0,
-                    backgroundImage: 'url("https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/background-app.jpg")',
+                    backgroundImage: 'url("https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/background-app.jpg")',
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',

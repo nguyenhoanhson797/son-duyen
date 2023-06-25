@@ -71,7 +71,7 @@ const AdminAppLayout = () => {
                 alignItems: 'center',
                 maxWidth: '100vw',
                 height: '100vh',
-                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/img@main/background-app-3.jpg')",
+                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/background-app-3.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}
