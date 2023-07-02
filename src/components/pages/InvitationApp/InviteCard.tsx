@@ -133,7 +133,7 @@ const InviteCard = () => {
                     }}
                 >
                     <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
-                    <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} isVertical animationSet='left' />
+                    <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} disableAnimation />
                     <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} isVertical animationSet='right'  />
                     <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} isVertical animationSet='left' />
                     <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} isVertical animationSet='fade' />
@@ -240,7 +240,7 @@ const InviteCard = () => {
                                 position: 'relative'
                             }}
                         >
-                                <div className="card-hint">
+                            <div className="card-hint" style={{ fontSize: 24 }}>
                                 Bấm để lật thiệp
                             </div>
                         </div>

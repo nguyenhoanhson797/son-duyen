@@ -86,7 +86,7 @@ const TableAdminApp = ({
                             message.success('Đã copy link vào khay nhớ tạm');
                         })
                         .catch(() => {
-                            message.error('Hành động thất bại')
+                            message.error('Hành động thất bại, vui lòng mở bằng trình duyệt.')
                         })
                 }
             },
@@ -165,7 +165,7 @@ const TableAdminApp = ({
             rowKey={rec => rec.id}
             columns={columns}
             pagination={false}
-            scroll={{x: 800}}
+            scroll={{ x: 800 }}
             size={isSmallSize ? 'small' : undefined}
         />
     );

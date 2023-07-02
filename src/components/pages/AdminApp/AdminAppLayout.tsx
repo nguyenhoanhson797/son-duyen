@@ -81,6 +81,8 @@ const AdminAppLayout = () => {
                 size={isSmallSize ? 'small' : undefined}
                 style={{
                     width: isSmallSize ? '100vw' : undefined,
+                    maxHeight: '90vh',
+                    overflow: 'auto',
                     margin: 20,
                     ...mirrorStyle
                 }}

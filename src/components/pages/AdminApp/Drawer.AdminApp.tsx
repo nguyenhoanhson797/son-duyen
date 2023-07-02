@@ -4,6 +4,7 @@ import { OpenFormDrawerType } from './AdminAppLayout';
 import { GuestType, appService } from '../../../constants/services';
 import { SaveOutlined } from '@ant-design/icons'
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
+import { APP_URL } from '../../../constants/app-config';
 
 interface IProps {
     openFormDrawer: OpenFormDrawerType | undefined
@@ -42,6 +43,10 @@ const DrawerAdminApp = ({
                         message.success('Đã thêm khách mời')
                         handleCallService()
                         setOpenFormDrawer(undefined)
+                        navigator.clipboard.writeText(APP_URL+'thiep-moi/'+res.data.id)
+                        .then(() => {
+                            message.success('Đã copy link thiệp vào khay nhớ tạm');
+                        })
                     }
                 })
             })

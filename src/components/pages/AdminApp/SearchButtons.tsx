@@ -32,6 +32,7 @@ const SearchButtons = ({ Props, collapse, sizeBreakpoint, align } : IProps) => {
                 style={{width: isCollapse ? 100 : undefined, transition: '0.3s ease'}}
                 onFocus={() => setIsCollapse(false)}
                 onBlur={() => setIsCollapse(collapse || false)}
+                allowClear
                 {...Props}
             />
         </div>
