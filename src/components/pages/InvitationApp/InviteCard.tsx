@@ -285,7 +285,8 @@ const InviteCard = () => {
                                     height: '36%',
                                     padding: '0px 10%',
                                     boxSizing: 'border-box',
-                                    flexWrap: 'wrap'
+                                    flexWrap: 'wrap',
+                                    overflow: 'auto'
                             }}
                             >
                                 <Typography.Title 
