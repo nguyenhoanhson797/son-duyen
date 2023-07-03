@@ -3,7 +3,7 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GuestType, appService } from '../../../constants/services';
-import { Affix, Button, Card, Empty, FloatButton, Modal, Space, Spin, Typography, theme } from 'antd';
+import { Affix, Button, Card, Empty, FloatButton, Modal, Skeleton, Space, Spin, Typography, theme } from 'antd';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import { BookOutlined, AudioMutedOutlined, AudioOutlined, CloseOutlined } from '@ant-design/icons'
 import { useWindowSize } from '../../../constants/window-size-hook';
@@ -62,6 +62,8 @@ const InviteCard = () => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
     const [flipped, setFlipped] = useState(false);
 
+    const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+
     const handleFlip = () => {
         setFlipped(!flipped);
     };
@@ -117,6 +119,15 @@ const InviteCard = () => {
         }
     }, [openModal2])
 
+    useEffect(() => {
+        const img = new Image();
+        img.src = 'https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/background-app.jpg';
+        img.onload = () => {
+            setBackgroundLoaded(true);
+        }
+    }, [])
+
+
     return (
         <Spin spinning={isLoading} delay={300} size='large'>
             <Space style={{ width: '100%', justifyContent: 'center' }} >
@@ -133,7 +144,7 @@ const InviteCard = () => {
                     }}
                 >
                     <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
-                    <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} disableAnimation />
+                    <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} isVertical disableAnimation />
                     <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} isVertical animationSet='right'  />
                     <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} isVertical animationSet='left' />
                     <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} isVertical animationSet='fade' />
@@ -178,38 +189,42 @@ const InviteCard = () => {
                     justifyContent: 'center'
                 }}
             >
-                <Space
-                    style={{ 
-                        ...contentStyle, 
-                        ...mirrorStyle, 
-                        width: '90%', 
-                        justifyContent: 'space-between', 
-                        position: 'absolute', 
-                        bottom: 10,
-                        borderRadius: 6
-                    }} 
-                    direction='vertical' 
-                    align='center'
-                >
-                    <div className='typewriter1st'>
-                        <h3>Xin Chào</h3>
-                    </div>
-                    <div className='typewriter2nd' style={{...allFontName.fontCharm}} >
-                        <h1>{data?.name}</h1>
-                    </div>
-                    <Button
-                        onClick={() => {
-                            setOpenModal(false)
-                            setOpenModal2(true)
-                            setIsPlaying(true)
-                            ref.current!.play()
-                        }}  
-                        type='primary'
-                        style={{ marginBottom: 20, backgroundColor: themeToken['lime-6'] }}
+                {backgroundLoaded ? (
+                    <Space
+                        style={{ 
+                            ...contentStyle, 
+                            ...mirrorStyle, 
+                            width: '90%', 
+                            justifyContent: 'space-between', 
+                            position: 'absolute', 
+                            bottom: 10,
+                            borderRadius: 6
+                        }} 
+                        direction='vertical' 
+                        align='center'
                     >
-                        Tiếp tục
-                    </Button>
-                </Space>
+                        <div className='typewriter1st'>
+                            <h3>Xin Chào</h3>
+                        </div>
+                        <div className='typewriter2nd' style={{...allFontName.fontCharm}} >
+                            <h1>{data?.name}</h1>
+                        </div>
+                        <Button
+                            onClick={() => {
+                                setOpenModal(false)
+                                setOpenModal2(true)
+                                setIsPlaying(true)
+                                ref.current!.play()
+                            }}  
+                            type='primary'
+                            style={{ marginBottom: 20, backgroundColor: themeToken['lime-6'] }}
+                        >
+                            Tiếp tục
+                        </Button>
+                    </Space>
+                ) : (
+                    <Skeleton active />
+                )}
             </Modal>
             
             {/* Invite Card */}
@@ -230,7 +245,7 @@ const InviteCard = () => {
                     <div className="card-front">
                         <div
                             style={{
-                                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-f.png')",
+                                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-front.jpg')",
                                 backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center',
@@ -249,7 +264,7 @@ const InviteCard = () => {
                     <div className="card-back">
                         <div
                             style={{
-                                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-b.png')",
+                                backgroundImage: "url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/card-back.jpg')",
                                 backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center',

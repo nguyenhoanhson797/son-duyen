@@ -49,7 +49,7 @@ functions.https.onRequest(async (req, res) => {
   });
 });
 
-// GET-all endpoint to retrieve all guests
+// GET 1 endpoint to retrieve 1 guests
 exports.getGuestById =
 functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -77,11 +77,6 @@ functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
-      const pageSize =
-      req.query.pageSize ?
-        parseInt(req.query.pageSize as string) : 10;
-      const pageToken = req.query.pageToken ?
-        req.query.pageToken as string : undefined;
       const searchQuery = req.query.name ?
         req.query.name as string : undefined;
 
@@ -95,27 +90,14 @@ functions.https.onRequest(async (req, res) => {
           "name", "<", searchQuery + "\uf8ff"
         );
       }
-      query = query.limit(pageSize);
-      if (pageToken) {
-        const startAfterDoc = await collectionRef.doc(pageToken).get();
-        query = query.startAfter(startAfterDoc);
-      }
       const guests = await query.get();
       const allGuests: GuestType[] = [];
       guests.forEach((guest) => {
         allGuests.push({id: guest.id, ...guest.data()} as GuestType);
       });
-      const nextPageToken =
-      guests.docs.length === pageSize ?
-        guests.docs[guests.docs.length - 1] : null;
-
-      const previousPageToken = pageToken ?
-        guests.docs[0] : null;
 
       res.status(200).send({
         data: allGuests,
-        nextPageToken,
-        previousPageToken,
       });
     } catch (error) {
       res.status(400).send(`Error getting guests: ${error}`);

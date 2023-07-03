@@ -1,0 +1,25 @@
+[debug] [2023-07-03T17:20:16.468Z] ----------------------------------------------------------------------
+[debug] [2023-07-03T17:20:16.470Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2023-07-03T17:20:16.470Z] CLI Version:   11.30.0
+[debug] [2023-07-03T17:20:16.470Z] Platform:      win32
+[debug] [2023-07-03T17:20:16.470Z] Node Version:  v18.12.0
+[debug] [2023-07-03T17:20:16.471Z] Time:          Tue Jul 04 2023 00:20:16 GMT+0700 (Indochina Time)
+[debug] [2023-07-03T17:20:16.471Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-07-03T17:20:16.541Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-07-03T17:20:16.541Z] > authorizing via signed-in user (nguyenhoanhson797@gmail.com)
+[debug] [2023-07-03T17:20:16.541Z] [iam] checking project wedding-invitation-98d6a for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-07-03T17:20:16.544Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/wedding-invitation-98d6a:testIamPermissions [none]
+[debug] [2023-07-03T17:20:16.544Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/wedding-invitation-98d6a:testIamPermissions x-goog-quota-user=projects/wedding-invitation-98d6a
+[debug] [2023-07-03T17:20:16.544Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/wedding-invitation-98d6a:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-07-03T17:20:17.758Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/wedding-invitation-98d6a:testIamPermissions 200
+[debug] [2023-07-03T17:20:17.759Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/wedding-invitation-98d6a:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-07-03T17:20:17.759Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/wedding-invitation-98d6a/serviceAccounts/wedding-invitation-98d6a@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-07-03T17:20:17.759Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/wedding-invitation-98d6a/serviceAccounts/wedding-invitation-98d6a@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-07-03T17:20:18.931Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/wedding-invitation-98d6a/serviceAccounts/wedding-invitation-98d6a@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-07-03T17:20:18.931Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/wedding-invitation-98d6a/serviceAccounts/wedding-invitation-98d6a@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'wedding-invitation-98d6a'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
