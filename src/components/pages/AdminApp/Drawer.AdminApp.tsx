@@ -43,7 +43,7 @@ const DrawerAdminApp = ({
                         message.success('Đã thêm khách mời')
                         handleCallService()
                         setOpenFormDrawer(undefined)
-                        navigator.clipboard.writeText(APP_URL+'thiep-moi/'+res.data.id)
+                        navigator.clipboard.writeText(APP_URL+'thiep-moi/'+res.data.Id)
                         .then(() => {
                             message.success('Đã copy link thiệp vào khay nhớ tạm');
                         })
@@ -57,7 +57,7 @@ const DrawerAdminApp = ({
         if(!openFormDrawer || !openFormDrawer.data){
             return message.error('Hành động thất bại')
         }
-        const id = openFormDrawer.data.id
+        const id = openFormDrawer.data.Id
 
         setIsLoading(true)
         appService().patchKhachMoi(id, value)

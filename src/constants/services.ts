@@ -20,11 +20,12 @@ export type searchQuery = {
 };
 
 export interface GuestType {
-    id: string
+    Id: string
     name: string
     phone: number
     email: string
     note: string
+    wishes: string
 }
 
 export interface updateGuestTypeDto {
@@ -32,6 +33,10 @@ export interface updateGuestTypeDto {
     phone?: number
     email?: string
     note: string
+}
+
+export interface updateGuestWishesDto {
+    wishes: string
 }
 
 export const appService = () => {
@@ -67,6 +72,17 @@ export const appService = () => {
         return response;
     }
 
+    const patchLoiChucKhachMoi = async (id: string, body: updateGuestTypeDto, wishes: string) => {
+        const data = {
+            ...body,
+            wishes
+        }
+        const response = await axios.patch<GuestType>(
+            `${updateGuestEndpoint}?id=${id}`, data
+        )
+        return response;
+    }
+
     const deleteKhachMoi = async (id: string) => {
         const response = await axios.delete<GuestType>(
             `${deleteGuestEndpoint}?id=${id}`
@@ -79,7 +95,8 @@ export const appService = () => {
         getKhachMoi,
         postKhachMoi,
         patchKhachMoi,
-        deleteKhachMoi
+        deleteKhachMoi,
+        patchLoiChucKhachMoi,
     }
 }
   

@@ -13,6 +13,9 @@ import '../../animation/writing.css'
 import '../../animation/modal.css'
 import '../../animation/card.css'
 import AnimationBox from './AnimationBox';
+import ScheduleModal from './ScheduleModal';
+import GiftPage from './GiftPage';
+import WishesPage from './WishesPage';
 
 const { Title } = Typography
 const { useToken } = theme
@@ -60,7 +63,7 @@ const InviteCard = () => {
     const [openModal2, setOpenModal2] = useState(false)
     const [musicPlaying, setMusicPlaying] = useState<number>(0)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
-    const [flipped, setFlipped] = useState(false);
+    const [flipped, setFlipped] = useState(false)
 
     const [backgroundLoaded, setBackgroundLoaded] = useState(false);
 
@@ -91,14 +94,12 @@ const InviteCard = () => {
     }
 
     const handleEnded = () => {
-        console.log('end');
         let next = musicPlaying + 1
         if(next >= 6){
             next = 0
         }
         setMusicPlaying(next)
         ref.current!.load()
-        console.log('start load');
     }
 
     useEffect(() => {
@@ -127,7 +128,6 @@ const InviteCard = () => {
         }
     }, [])
 
-
     return (
         <Spin spinning={isLoading} delay={300} size='large'>
             <Space style={{ width: '100%', justifyContent: 'center' }} >
@@ -145,6 +145,7 @@ const InviteCard = () => {
                 >
                     <AnimationBox imgUrl='background-app-1.jpg' boxKey={1} disableAnimation />
                     <AnimationBox imgUrl='background-app-2.jpg' boxKey={2} isVertical disableAnimation />
+                    <ScheduleModal />
                     <AnimationBox imgUrl='background-app-3.jpg' boxKey={3} isVertical animationSet='right'  />
                     <AnimationBox imgUrl='background-app-4.jpg' boxKey={4} isVertical animationSet='left' />
                     <AnimationBox imgUrl='background-app-5.jpg' boxKey={6} isVertical animationSet='fade' />
@@ -157,6 +158,8 @@ const InviteCard = () => {
                     <AnimationBox imgUrl='background-app-12.jpg' boxKey={12} isVertical animationSet='left' />
                     <AnimationBox imgUrl='background-app-13.jpg' boxKey={13} isVertical animationSet='right'  />
                     <AnimationBox imgUrl='background-app-14.jpg' boxKey={14} isVertical animationSet='left' />
+                    <GiftPage />
+                    <WishesPage userData={data} />
                 </Space>
             </Space>
 

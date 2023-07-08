@@ -94,7 +94,7 @@ const AnimationBox = ({ boxKey, imgUrl, disableAnimation, animationSet, isVertic
             backgroundSize: isVertical ? 'cover' : (isMobileSize ? 'contain' : 'cover'),
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
-            position: 'relative'
+            position: 'relative',
         }
     }
 

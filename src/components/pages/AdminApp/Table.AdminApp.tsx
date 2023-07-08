@@ -81,7 +81,7 @@ const TableAdminApp = ({
                 label: 'Copy link thiệp',
                 icon: <CopyOutlined />,
                 onClick: () => {
-                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.id)
+                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.Id)
                         .then(() => {
                             message.success('Đã copy link vào khay nhớ tạm');
                         })
@@ -92,14 +92,14 @@ const TableAdminApp = ({
             },
             {
                 key: '3',
-                label: <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' >Đi tới thiệp</Link >,
+                label: <Link href={APP_URL+'thiep-moi/'+data.Id} target='_blank' >Đi tới thiệp</Link >,
                 icon: <BranchesOutlined style={{color: '#1677ff'}}/>,
             },
             {
                 key: '4',
                 label: 'Xóa khách mời',
                 icon: <DeleteOutlined />,
-                onClick: () => handleDelete(data.id),
+                onClick: () => handleDelete(data.Id),
                 danger: true
             }
         ]
@@ -121,6 +121,7 @@ const TableAdminApp = ({
             title: 'Tên',
             dataIndex: 'name',
             align: 'left',
+            width: 240,
             render: (value: string, record: GuestType) => (
                 <Typography.Link onClick={() => handleEdit(record)}>
                     {value}
@@ -131,6 +132,7 @@ const TableAdminApp = ({
             title: 'Số điện thoại',
             dataIndex: 'phone',
             align: 'center',
+            width: 160,
             render: value => (
                 value ? (
                     <span> {`+84 ${value}`} </span>
@@ -140,12 +142,14 @@ const TableAdminApp = ({
         {
             title: 'Email',
             dataIndex: 'email',
-            align: 'center'
+            align: 'center',
+            width: 160,
         },
         {
             title: 'Ghi chú',
             dataIndex: 'note',
-            align: 'center'
+            align: 'center',
+            width: 200,
         },
         {
             title: '',
@@ -162,10 +166,10 @@ const TableAdminApp = ({
     return (
         <Table 
             dataSource={data}
-            rowKey={rec => rec.id}
+            rowKey={rec => rec.Id}
             columns={columns}
             pagination={false}
-            scroll={{ x: 800 }}
+            scroll={{ x: 824 }}
             size={isSmallSize ? 'small' : undefined}
         />
     );

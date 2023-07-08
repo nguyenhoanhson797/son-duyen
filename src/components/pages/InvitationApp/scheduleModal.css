@@ -1,0 +1,12 @@
+.carouselDots li {
+    background-color: #00ffbe;
+}
+
+.carouselDots .slick-active {
+    background-color: #ffad0d;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+    opacity: 0;
+    background: none;
+}

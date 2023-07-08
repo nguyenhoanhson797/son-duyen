@@ -1,3 +1,5 @@
+import './font.css'
+
 export const fontCharm: React.CSSProperties = {
     fontFamily: "'Charm', cursive"
 }
@@ -7,15 +9,15 @@ export const fontAmatic: React.CSSProperties= {
 }
 
 export const fontAllura: React.CSSProperties= {
-    fontFamily: "'Allura', cursive;"
+    fontFamily: "'Allura', cursive"
 }
 
 export const fontMonteCarlo: React.CSSProperties= {
-    fontFamily: "'MonteCarlo', cursive;"
+    fontFamily: "'MonteCarlo', cursive"
 }
 
 export const fontCarattere: React.CSSProperties= {
-    fontFamily: "'Carattere', cursive;"
+    fontFamily: "'Carattere', cursive"
 }
 
 export const allFontName : {[key: string]: React.CSSProperties} = {
@@ -26,12 +28,12 @@ export const allFontName : {[key: string]: React.CSSProperties} = {
         fontFamily: "'Amatic SC', cursive"
     },
     fontAllura: {
-        fontFamily: "'Allura', cursive;"
+        fontFamily: "'Allura', cursive"
     },
     fontMonteCarlo: {
-        fontFamily: "'MonteCarlo', cursive;"
+        fontFamily: "'MonteCarlo', cursive"
     },
     fontCarattere: {
-        fontFamily: "'Carattere', cursive;"
+        fontFamily: "'Carattere', cursive"
     }
 }
