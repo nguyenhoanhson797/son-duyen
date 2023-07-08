@@ -42,7 +42,7 @@ const WishesPage = ({ userData }: IProps) => {
     const isMobileSize = windowSize.width && windowSize.width <= 576
 
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
-    const [wishes, setWishes] = useState<string | undefined>(undefined)
+    const [wishes, setWishes] = useState<string | undefined>('Chúc Sơn và Duyên hạnh phúc!')
     const [isLoading, setIsLoading] = useState(false)
 
     const [realData, setRealData] = useState<string | undefined>(undefined)
@@ -109,6 +109,7 @@ const WishesPage = ({ userData }: IProps) => {
                     value={wishes}
                     onChange={(x) => setWishes(x.target.value)}
                     placeholder='Gửi lời chúc'
+                    allowClear
                 />
                 <Button type='primary' style={{ justifyItems: 'center' ,backgroundColor: themeToken['cyan-6' ]}} onClick={(() => handleAddWishes())}>
                     Gửi lời chúc
