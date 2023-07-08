@@ -72,7 +72,7 @@ const InviteCard = () => {
 
     const toolSteps: TourProps['steps'] = [
         {
-          title: 'Nhấn để đóng thiệp và xem tiếp nội dung bên dưới',
+          title: openModal2 ? 'Nhấn để đóng thiệp và xem tiếp nội dung bên dưới' : 'Nhấn để xem lại thiệp mời của bạn',
           prevButtonProps: {
             style: { display: 'none' }
           },
