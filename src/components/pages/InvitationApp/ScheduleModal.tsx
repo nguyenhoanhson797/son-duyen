@@ -192,9 +192,14 @@ const ScheduleModal = () => {
                     direction='vertical'
                     size={isSmallSize ? 24 : 60}
                     align='center'
-                    style={{ width: '65%', height: '65%', justifyContent: 'center' }}
+                    style={{ width: '65%', height: '55%', justifyContent: 'center' }}
                 >
-                    {getCountdown()}
+                    <Space size={0} direction='vertical' style={{ justifyContent: 'center' }}>
+                        <Text style={{ fontSize: isSmallSize ? 16 : 32, ...allFontName.fontCharm, textAlign: 'center' }}>
+                          Còn lại ...
+                        </Text>
+                        {getCountdown()}
+                    </Space>
                     <Button 
                         type='primary' 
                         style={{ backgroundColor: themeToken['cyan-6'] }} 
