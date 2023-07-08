@@ -146,7 +146,7 @@ const ScheduleModal = () => {
                               <div style={getBackgroundStyle('gate.png')} />
                               <Space size={4} direction='vertical'>
                                 <Text style={{ fontSize: 24, ...allFontName.fontCharm}}>Đón khách</Text>
-                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>15h30</Text>
+                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>17h30</Text>
                               </Space>
                             </Space>
                         </div>
@@ -156,7 +156,7 @@ const ScheduleModal = () => {
                             <Space style={{ justifyContent: 'space-evenly', width: '100%' }}>
                               <Space size={4} direction='vertical'>
                                 <Text style={{ fontSize: 24, ...allFontName.fontCharm}}>Khai lễ</Text>
-                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>16h00</Text>
+                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>18h00</Text>
                               </Space>
                               <div style={getBackgroundStyle('ring.png')} />
                             </Space>
@@ -167,7 +167,7 @@ const ScheduleModal = () => {
                             <Space style={{ justifyContent: 'space-evenly', width: '100%' }}>
                               <Space size={4} direction='vertical'>
                                 <Text style={{ fontSize: 24, ...allFontName.fontCharm}}>Khai tiệc</Text>
-                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>16h30</Text>
+                                <Text style={{ fontSize: 40, ...allFontName.fontAmatic}}>18h30</Text>
                               </Space>
                               <div style={getBackgroundStyle('dishes.png')} />
                             </Space>
