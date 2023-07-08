@@ -45,6 +45,7 @@ const AdminAppLayout = () => {
                 setIsLoading(false)
             })
     }
+      
 
     const debounceGetRequestTypeData = debounce((value: string | undefined) => {
         if(!value){
@@ -53,7 +54,7 @@ const AdminAppLayout = () => {
         }
 
         handleCallService({name: value})
-    }, 500, {maxWait: 800})
+    }, 500, {trailing: true})
 
     function getGuestData (value: string | undefined) {
         debounceGetRequestTypeData(value)
