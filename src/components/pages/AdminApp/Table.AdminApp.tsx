@@ -30,9 +30,9 @@ const TableAdminApp = ({
     const windowSize = useWindowSize()
     const isSmallSize = windowSize.width && windowSize.width <= 800
 
-    const handleDelete = (id: string) => {
+    const handleDelete = (data: GuestType) => {
         Modal.confirm({
-            title: 'Xóa khách mời',
+            title: `Xóa khách mời: ${data.name}`,
             content: 'Bạn có muốn xóa khách mời này không?',
             okText: 'Xóa',
             cancelText: 'Quay lại',
@@ -44,7 +44,7 @@ const TableAdminApp = ({
             className: 'defaultModal',
             onOk(){
                 setIsLoading(true)
-                appService().deleteKhachMoi(id)
+                appService().deleteKhachMoi(data.Id)
                     .then(res => {
                         axiosServiceCheck({
                             res: res,
@@ -83,7 +83,7 @@ const TableAdminApp = ({
                 onClick: () => {
                     navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.Id)
                         .then(() => {
-                            message.success('Đã copy link vào khay nhớ tạm');
+                            message.success(`Đã copy link thiệp của [ ${data.name} ] vào khay nhớ tạm`);
                         })
                         .catch(() => {
                             message.error('Hành động thất bại, vui lòng mở bằng trình duyệt.')
@@ -99,7 +99,7 @@ const TableAdminApp = ({
                 key: '4',
                 label: 'Xóa khách mời',
                 icon: <DeleteOutlined />,
-                onClick: () => handleDelete(data.Id),
+                onClick: () => handleDelete(data),
                 danger: true
             }
         ]

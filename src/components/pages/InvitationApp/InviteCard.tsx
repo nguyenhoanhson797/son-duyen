@@ -3,7 +3,7 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GuestType, appService } from '../../../constants/services';
-import { Affix, Button, Card, Empty, FloatButton, Modal, Skeleton, Space, Spin, Typography, theme } from 'antd';
+import { Affix, Button, Card, Empty, FloatButton, Modal, Skeleton, Space, Spin, Tour, TourProps, Typography, theme } from 'antd';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import { BookOutlined, AudioMutedOutlined, AudioOutlined, CloseOutlined } from '@ant-design/icons'
 import { useWindowSize } from '../../../constants/window-size-hook';
@@ -57,6 +57,8 @@ const InviteCard = () => {
     const isMobileSize = windowSize.width && windowSize.width <= 960
     const themeToken = useToken().token
 
+    const closeBtnRef = useRef<HTMLButtonElement | null>(null)
+
     const [data, setData] = useState<GuestType | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
     const [openModal, setOpenModal] = useState(false)
@@ -65,7 +67,24 @@ const InviteCard = () => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
     const [flipped, setFlipped] = useState(false)
 
-    const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+    const [backgroundLoaded, setBackgroundLoaded] = useState(false)
+    const [openTool, setOpenTool] = useState(false)
+
+    const toolSteps: TourProps['steps'] = [
+        {
+          title: 'Nhấn để đóng thiệp và xem tiếp nội dung bên dưới',
+          prevButtonProps: {
+            style: { display: 'none' }
+          },
+          nextButtonProps: {
+            children: 'Tôi đã hiểu',
+            onClick: () => setOpenTool(false),
+            style: { backgroundColor: themeToken['cyan-6'] },
+          },
+          target: () => closeBtnRef.current!,
+          style: { maxWidth: '90vw'},
+        },
+    ]
 
     const handleFlip = () => {
         setFlipped(!flipped);
@@ -115,9 +134,19 @@ const InviteCard = () => {
     }, [])
 
     useEffect(() => {
+        let timeout: any
         if(!openModal2){
             setFlipped(false)
+            clearTimeout(timeout)
+        } else {
+            timeout = setTimeout(() => {
+                setOpenTool(true)
+            }, 5000)
         }
+
+        return(() => {
+            clearTimeout(timeout)
+        })
     }, [openModal2])
 
     useEffect(() => {
@@ -308,6 +337,7 @@ const InviteCard = () => {
             </Modal>
 
             <FloatButton
+                ref={closeBtnRef}
                 shape="circle"
                 icon={<CloseOutlined />}
                 onClick={() => setOpenModal2(false)}
@@ -329,6 +359,8 @@ const InviteCard = () => {
                 type='primary'
                 onClick={() => setOpenModal2(true)}
             />
+
+            <Tour open={openTool} onClose={() => setOpenTool(false)} steps={toolSteps} />
             
             <audio 
                 ref={ref}

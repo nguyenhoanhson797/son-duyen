@@ -96,7 +96,7 @@ const AdminAppLayout = () => {
                                     if(value.trim().length === 0){
                                         return
                                     }
-                                    handleCallService({name: value})
+                                    getGuestData(value)
                                 },
                                 onChange: (x) => getGuestData(x.target.value),
                             }}
