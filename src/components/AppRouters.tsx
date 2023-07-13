@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import AdminAppLayout from './pages/AdminApp/AdminAppLayout';
 import { APP_URL } from '../constants/app-config';
 import InviteCard from './pages/InvitationApp/InviteCard';
+import LotoApp from './pages/LotoApp/LotoApp';
 
 const AppRouters = () => {
     return (
@@ -25,6 +26,16 @@ const AppRouters = () => {
             <Route
                 path={`${APP_URL}/thiep-moi/:khachMoiId`}
                 element={<InviteCard />}
+            />
+
+            <Route
+                path={`/loto-app`}
+                element={<LotoApp />}
+            />
+
+            <Route
+                path={`${APP_URL}/loto-app`}
+                element={<LotoApp />}
             />
         </Routes>
     );
