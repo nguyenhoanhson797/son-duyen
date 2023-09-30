@@ -8,7 +8,10 @@ interface GuestType {
   phone: number
   email: string
   note: string
+  wishes: string
 }
+
+type WishesType = Pick<GuestType, "id" | "name" | "wishes">
 
 const corsHandler = cors({
   origin: true,
@@ -25,10 +28,14 @@ functions.https.onRequest(async (req, res) => {
       const guest = req.body;
       const result = await admin.firestore().collection("guests").add(guest);
       const id = result.id;
-      await admin.firestore().collection("guests").doc(id).update({Id: id});
-      res.status(201).send(`Guest created with ID: ${result.id}`);
+      await admin.firestore().collection("guests").doc(id).update({id: id});
+      const collectionRef = admin.firestore().collection("guests");
+      const resResult = collectionRef
+        .where(admin.firestore.FieldPath.documentId(), "==", id);
+      const data = await resResult.get();
+      res.status(200).send(data.docs[0].data());
     } catch (error) {
-      res.status(400).send(`Error creating guest: ${error}`);
+      res.status(400).send(undefined);
     }
   });
 });
@@ -42,9 +49,13 @@ functions.https.onRequest(async (req, res) => {
       const guestId = req.query.id as string;
       const guest = req.body;
       await admin.firestore().collection("guests").doc(guestId).update(guest);
-      res.status(200).send(`Guest with ID: ${guestId} updated`);
+      const collectionRef = admin.firestore().collection("guests");
+      const result = collectionRef
+        .where(admin.firestore.FieldPath.documentId(), "==", guestId);
+      const data = await result.get();
+      res.status(200).send(data.docs[0].data());
     } catch (error) {
-      res.status(400).send(`Error updating guest: ${error}`);
+      res.status(400).send(undefined);
     }
   });
 });
@@ -57,7 +68,8 @@ functions.https.onRequest(async (req, res) => {
     try {
       const collectionRef = admin.firestore().collection("guests");
       const id = req.query.id as string;
-      const guest = collectionRef.where("Id", "==", id);
+      const guest = collectionRef
+        .where(admin.firestore.FieldPath.documentId(), "==", id);
       const data = await guest.get();
       if (data.empty) {
         res.status(404).send("Guest not found");
@@ -71,39 +83,45 @@ functions.https.onRequest(async (req, res) => {
   });
 });
 
-// GET-all endpoint to retrieve all guests
-// exports.getAllGuests =
-// functions.https.onRequest(async (req, res) => {
-//   res.set("Access-Control-Allow-Origin", "*");
-//   corsHandler(req, res, async () => {
-//     try {
-//       const searchQuery = req.query.name ?
-//         req.query.name as string : undefined;
+// GET-all endpoint to retrieve all wishes
+exports.getAllWishes =
+functions.https.onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  corsHandler(req, res, async () => {
+    try {
+      const searchQuery = req.query.name ?
+        req.query.name as string : undefined;
 
-//       const collectionRef = admin.firestore().collection("guests");
-//       let query: admin.firestore.Query<admin.firestore.DocumentData> =
-//       collectionRef;
-//       if (searchQuery) {
-//         query = collectionRef.where(
-//           "name", ">=", searchQuery
-//         ).where(
-//           "name", "<", searchQuery + "\uf8ff"
-//         );
-//       }
-//       const guests = await query.get();
-//       const allGuests: GuestType[] = [];
-//       guests.forEach((guest) => {
-//         allGuests.push({id: guest.id, ...guest.data()} as GuestType);
-//       });
+      const collectionRef = admin.firestore().collection("guests");
+      let query: admin.firestore.Query<admin.firestore.DocumentData> =
+      collectionRef;
+      if (searchQuery) {
+        query = collectionRef.where(
+          "name", ">=", searchQuery
+        ).where(
+          "name", "<", searchQuery + "\uf8ff"
+        );
+      }
+      const guests = await query.get();
+      const allGuests: WishesType[] = [];
+      guests.forEach((guest) => {
+        if (guest.data().wishes) {
+          allGuests.push({
+            id: guest.id,
+            name: guest.data().name,
+            wishes: guest.data().wishes,
+          });
+        }
+      });
 
-//       res.status(200).send({
-//         data: allGuests,
-//       });
-//     } catch (error) {
-//       res.status(400).send(`Error getting guests: ${error}`);
-//     }
-//   });
-// });
+      res.status(200).send({
+        data: allGuests,
+      });
+    } catch (error) {
+      res.status(400).send(`Error getting guests: ${error}`);
+    }
+  });
+});
 
 exports.getAllGuests = functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -167,7 +185,6 @@ exports.getAllGuests = functions.https.onRequest(async (req, res) => {
     }
   });
 });
-
 
 // DELETE endpoint to delete an existing guest
 exports.deleteGuest =
