@@ -1,5 +1,5 @@
 import { CSSProperties, useEffect, useState } from 'react';
-import { GuestType, appService, updateGuestTypeDto } from '../../../constants/services';
+import { GuestType, WishesType, appService, updateGuestTypeDto } from '../../../constants/services';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import { Space, Spin, message, Input, Button, theme, Card, Typography } from 'antd';
 import useWindowSize from '../../hooks/window-size-hook';
@@ -40,7 +40,7 @@ const WishesPage = ({ userData }: IProps) => {
     const themeToken = useToken().token
     const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
-    const [data, setData] = useState<GuestType[] | undefined>(undefined)
+    const [data, setData] = useState<WishesType[] | undefined>(undefined)
     const [wishes, setWishes] = useState<string | undefined>('Chúc Sơn và Duyên hạnh phúc!')
     const [isLoading, setIsLoading] = useState(false)
 
@@ -48,13 +48,13 @@ const WishesPage = ({ userData }: IProps) => {
 
     const handleCallService = () => {
         setIsLoading(true)
-        appService().getListKhachMoi()
+        appService().getListLoiChuc()
             .then(res => {
                 axiosServiceCheck({
                     res: res,
                     followUpAction: () => {
                         setData(res.data.data)
-                        setRealData(res.data.data.find(x => x.Id === userData?.Id)?.wishes)
+                        setRealData(res.data.data.find(x => x.id === userData?.id)?.wishes)
                     }
                 })
             })
@@ -75,7 +75,7 @@ const WishesPage = ({ userData }: IProps) => {
             phone: userData.phone
         }
         setIsLoading(true)
-        appService().patchLoiChucKhachMoi(userData.Id, body, wishes)
+        appService().patchLoiChucKhachMoi(userData.id, body, wishes)
             .then(res => {
                 axiosServiceCheck({
                     res: res,
@@ -91,9 +91,9 @@ const WishesPage = ({ userData }: IProps) => {
     }
 
     useEffect(() => {
-        const targetData = data?.find(x => x.Id === userData?.Id )
+        const targetData = data?.find(x => x.id === userData?.id )
         if (userData && data && targetData) {
-            const newData = data.filter(x => x.Id !== userData.Id )
+            const newData = data.filter(x => x.id !== userData.id )
             setData(() => [targetData, ...newData])
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,7 +128,7 @@ const WishesPage = ({ userData }: IProps) => {
                 }>
                     {data ? (
                         data.filter(x => x.wishes).map(item => (
-                            <Card size='small' bordered={false} key={item.Id} style={{ width: '100%', backgroundColor: '#fff1dfe6' }}>
+                            <Card size='small' bordered={false} key={item.id} style={{ width: '100%', backgroundColor: '#fff1dfe6' }}>
                                 <Space size={4} direction='vertical' style={{ width: '100%' }}>
                                     <Text strong style={{ fontSize: isSmallSize ? 16 : 20, ...allFontName.fontAmatic }}>{item.name}</Text>
                                     <Text style={{ fontSize: isSmallSize ? 16 : 24, ...allFontName.fontCharm }}>{item.wishes}</Text>

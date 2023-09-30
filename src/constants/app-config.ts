@@ -4,3 +4,4 @@ export const deleteGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a
 export const getAllGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/getAllGuests'
 export const getGuestByIdEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/getGuestById'
 export const updateGuestEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/updateGuest'
+export const getAllWishesEndpoint = 'https://us-central1-wedding-invitation-98d6a.cloudfunctions.net/getAllWishes'

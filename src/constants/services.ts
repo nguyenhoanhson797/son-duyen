@@ -3,6 +3,7 @@ import {
     addGuestEndpoint, 
     deleteGuestEndpoint, 
     getAllGuestEndpoint, 
+    getAllWishesEndpoint, 
     getGuestByIdEndpoint, 
     updateGuestEndpoint 
 } from "./app-config";
@@ -22,13 +23,16 @@ export type searchQuery = {
 };
 
 export interface GuestType {
-    Id: string
+    id: string
+    Id?: string
     name: string
     phone: number
     email: string
     note: string
     wishes: string
 }
+
+export interface WishesType extends Pick<GuestType, 'id' | 'name' | 'wishes'> {}
 
 export interface updateGuestTypeDto {
     name: string
@@ -48,6 +52,16 @@ export const appService = () => {
             paging: MetadataType;
             data: GuestType[];
         }>(`${getAllGuestEndpoint}`, {
+            params: query
+        });
+        return response;
+    }
+
+    const getListLoiChuc = async (query?: searchQuery) => {
+        const response = await axios.get<{
+            paging: MetadataType;
+            data: WishesType[];
+        }>(`${getAllWishesEndpoint}`, {
             params: query
         });
         return response;
@@ -94,6 +108,7 @@ export const appService = () => {
 
     return{
         getListKhachMoi,
+        getListLoiChuc,
         getKhachMoi,
         postKhachMoi,
         patchKhachMoi,

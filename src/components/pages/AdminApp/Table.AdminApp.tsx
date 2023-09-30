@@ -44,7 +44,7 @@ const TableAdminApp = ({
             className: 'defaultModal',
             onOk(){
                 setIsLoading(true)
-                appService().deleteKhachMoi(data.Id)
+                appService().deleteKhachMoi(data.id)
                     .then(res => {
                         axiosServiceCheck({
                             res: res,
@@ -81,7 +81,7 @@ const TableAdminApp = ({
                 label: 'Copy link thiệp',
                 icon: <CopyOutlined />,
                 onClick: () => {
-                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.Id)
+                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.id)
                         .then(() => {
                             message.success(`Đã copy link thiệp của [ ${data.name} ] vào khay nhớ tạm`);
                         })
@@ -92,7 +92,7 @@ const TableAdminApp = ({
             },
             {
                 key: '3',
-                label: <Link href={APP_URL+'thiep-moi/'+data.Id} target='_blank' >Đi tới thiệp</Link >,
+                label: <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' >Đi tới thiệp</Link >,
                 icon: <BranchesOutlined style={{color: '#1677ff'}}/>,
             },
             {
@@ -166,7 +166,7 @@ const TableAdminApp = ({
     return (
         <Table 
             dataSource={data}
-            rowKey={rec => rec.Id}
+            rowKey={rec => rec.Id || rec.id}
             columns={columns}
             pagination={false}
             scroll={{ x: 824 }}

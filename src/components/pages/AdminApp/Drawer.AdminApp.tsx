@@ -8,7 +8,6 @@ import { axiosServiceCheck } from '../../../constants/axios-service-check';
 interface IProps {
     openFormDrawer: OpenFormDrawerType | undefined
     setOpenFormDrawer: React.Dispatch<React.SetStateAction<OpenFormDrawerType | undefined>>
-    handleCallService: () => void
     setData: React.Dispatch<React.SetStateAction<GuestType[] | undefined>>
 }
 
@@ -17,7 +16,6 @@ const requireMark = <span style={{color: 'red'}}>*</span>
 const DrawerAdminApp = ({
     openFormDrawer,
     setOpenFormDrawer,
-    handleCallService,
     setData
 }: IProps) => {
     const [form] = Form.useForm<GuestType>()
@@ -53,7 +51,7 @@ const DrawerAdminApp = ({
         if(!openFormDrawer || !openFormDrawer.data){
             return message.error('Hành động thất bại')
         }
-        const id = openFormDrawer.data.Id
+        const id = openFormDrawer.data.Id || openFormDrawer.data.id
 
         setIsLoading(true)
         appService().patchKhachMoi(id, value)
@@ -62,7 +60,20 @@ const DrawerAdminApp = ({
                     res: res,
                     followUpAction: () => {
                         message.success('Đã chỉnh sửa thông tin')
-                        handleCallService()
+                        // handleCallService()
+                        setData((prev) => {
+                            const index = prev?.findIndex((x) => x.Id === id || x.id === id)
+                            if (!index || index < 0) {
+                                return prev
+                            }
+                            const clone = prev?.map((item) => {
+                                if (item.Id === id ||item.id === id) {
+                                    return res.data
+                                }
+                                return item
+                            })
+                            return clone
+                        })
                         setOpenFormDrawer(undefined)
                     }
                 })

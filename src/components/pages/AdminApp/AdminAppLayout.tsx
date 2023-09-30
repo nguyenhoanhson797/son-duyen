@@ -149,7 +149,6 @@ const AdminAppLayout = () => {
                 openFormDrawer={openFormDrawer}
                 setData={setData}
                 setOpenFormDrawer={setOpenFormDrawer}
-                handleCallService={handleCallService}
             />
         </div>
     );
