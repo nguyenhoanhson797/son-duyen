@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SearchProps } from 'antd/es/input';
 import { Input } from 'antd';
-import { useWindowSize } from '../../../constants/window-size-hook';
+import useWindowSize from '../../hooks/window-size-hook';
 
 const { Search } = Input
 
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const SearchButtons = ({ Props, collapse, sizeBreakpoint, align } : IProps) => {
-    const windowSize = useWindowSize()
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const [isCollapse, setIsCollapse] = useState(collapse || false)
 
@@ -28,7 +28,7 @@ const SearchButtons = ({ Props, collapse, sizeBreakpoint, align } : IProps) => {
             <Search
                 placeholder='Tìm kiếm'
                 enterButton
-                size={windowSize.width && windowSize.width <= (sizeBreakpoint || 576) ? 'small' : 'middle'}
+                size={isSmallSize ? 'small' : 'middle'}
                 style={{width: isCollapse ? 100 : undefined, transition: '0.3s ease'}}
                 onFocus={() => setIsCollapse(false)}
                 onBlur={() => setIsCollapse(collapse || false)}

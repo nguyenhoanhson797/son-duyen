@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdminAppLayout from './pages/AdminApp/AdminAppLayout';
 import { APP_URL } from '../constants/app-config';
-import InviteCard from './pages/InvitationApp/InviteCard';
+import InviteCard from './pages/InvitationApp/invite-card/InviteCard';
 import LotoApp from './pages/LotoApp/LotoApp';
 
 const AppRouters = () => {

@@ -1,5 +1,5 @@
 import { CSSProperties, useState } from 'react';
-import { useWindowSize } from '../../hooks/window-size-hook';
+import useWindowSize from '../../hooks/window-size-hook';
 import { Button, Col, FloatButton, Modal, Row, Space, Typography, theme } from 'antd';
 import { allFontName } from '../../font/use-font';
 import { CloseOutlined } from '@ant-design/icons'
@@ -15,8 +15,7 @@ const { useToken } = theme
 const { Text } = Typography
 
 const GiftPage = () => {
-    const windowSize = useWindowSize()
-    const isMobileSize = windowSize.width && windowSize.width <= 576
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const themeToken = useToken().token
 
@@ -31,7 +30,7 @@ const GiftPage = () => {
         maxWidth: '96vw',
         height: 'auto',
         backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/background-gift.jpg')`,
-        backgroundSize: (isMobileSize ? 'contain' : 'cover'),
+        backgroundSize: (isSmallSize ? 'contain' : 'cover'),
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         position: 'relative'
@@ -43,7 +42,7 @@ const GiftPage = () => {
           justifyContent: 'center',
           alignItems: 'center',
           aspectRatio: 1,
-          width: isMobileSize ? 140 : 200,
+          width: isSmallSize ? 140 : 200,
           height: '100%',
           backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/svg@main/${url}')`,
           backgroundSize: 'contain',
@@ -90,7 +89,7 @@ const GiftPage = () => {
                     }}
                 >
                     <div style={getBackgroundStyle('qr-gift.png')} />
-                    <Row gutter={[20, 0]} style={{ padding: isMobileSize ? undefined : '20px 40px'}}>
+                    <Row gutter={[20, 0]} style={{ padding: isSmallSize ? undefined : '20px 40px'}}>
                         <Col xs={24} lg={8}>
                             <Text>
                                 Số tài khoản:

@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { GuestType, appService } from '../../../constants/services';
 import { Button, Dropdown, MenuProps, Modal, Table, message, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import { OpenFormDrawerType } from './AdminAppLayout';
-import { useWindowSize } from '../../../constants/window-size-hook';
 import { APP_URL } from '../../../constants/app-config';
 import { EditOutlined, DeleteOutlined, MoreOutlined, BranchesOutlined, CopyOutlined } from '@ant-design/icons'
+import useWindowSize from '../../hooks/window-size-hook';
 
 const { Link } = Typography
 
@@ -16,6 +16,7 @@ interface IProps {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
     handleCallService: () => void
     setOpenFormDrawer: React.Dispatch<React.SetStateAction<OpenFormDrawerType | undefined>>
+    pagingBtns: ReactNode
 }
 
 const TableAdminApp = ({
@@ -23,12 +24,11 @@ const TableAdminApp = ({
     setData,
     setIsLoading,
     handleCallService,
-    setOpenFormDrawer
-
+    setOpenFormDrawer,
+    pagingBtns
 }: IProps) => {
 
-    const windowSize = useWindowSize()
-    const isSmallSize = windowSize.width && windowSize.width <= 800
+    const { isSmallSize } = useWindowSize({ smallSize: 800, options: { needWindowSize: false } })
 
     const handleDelete = (data: GuestType) => {
         Modal.confirm({
@@ -171,6 +171,7 @@ const TableAdminApp = ({
             pagination={false}
             scroll={{ x: 824 }}
             size={isSmallSize ? 'small' : undefined}
+            footer={() => pagingBtns}
         />
     );
 };

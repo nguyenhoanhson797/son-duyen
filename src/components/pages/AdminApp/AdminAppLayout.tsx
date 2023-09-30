@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Spin, Space } from 'antd';
-import { GuestType, appService } from '../../../constants/services';
+import { GuestType, MetadataType, appService } from '../../../constants/services';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import DrawerAdminApp from './Drawer.AdminApp';
 import { PlusOutlined } from '@ant-design/icons'
-import { useWindowSize } from '../../../constants/window-size-hook';
 import { searchQuery } from '../../../constants/services';
 import { debounce } from 'lodash';
 import TableAdminApp from './Table.AdminApp';
 import SearchButtons from './SearchButtons';
+import PagingCursorBtns from './PagingCursorBtns';
+import useWindowSize from '../../hooks/window-size-hook';
 
 export interface OpenFormDrawerType{
     action: 'create' | 'edit'
@@ -24,20 +25,21 @@ const mirrorStyle: React.CSSProperties = {
 
 const AdminAppLayout = () => {
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
+    const [metaData, setMetaData] = useState<MetadataType | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
     const [openFormDrawer, setOpenFormDrawer] = useState<OpenFormDrawerType | undefined>(undefined)
 
-    const windowSize = useWindowSize()
-    const isSmallSize = windowSize.width && windowSize.width <= 800
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false }, smallSize: 800 })
 
     const handleCallService = (query?: searchQuery) => {
         setIsLoading(true)
-        appService().getListKhachMoi(query)
+        appService().getListKhachMoi({ ...query })
             .then(res => {
                 axiosServiceCheck({
                     res: res,
                     followUpAction: () => {
                         setData(res.data.data)
+                        setMetaData(res.data.paging)
                     }
                 })
             })
@@ -45,7 +47,6 @@ const AdminAppLayout = () => {
                 setIsLoading(false)
             })
     }
-      
 
     const debounceGetRequestTypeData = debounce((value: string | undefined) => {
         if(!value){
@@ -63,6 +64,14 @@ const AdminAppLayout = () => {
     useEffect(() => {
         handleCallService()
     }, [])
+
+    const pagingBtns = (
+        <PagingCursorBtns
+            metaData={metaData}
+            onClickNext={() => handleCallService({ page: metaData?.nextPage })}
+            onClickPrev={() => handleCallService({ page: metaData?.prevPage })}
+        />
+    )
 
     return (
         <div
@@ -131,12 +140,14 @@ const AdminAppLayout = () => {
                         setIsLoading={setIsLoading}
                         handleCallService={handleCallService}
                         setOpenFormDrawer={setOpenFormDrawer}
+                        pagingBtns={pagingBtns}
                     />
                 </Spin>
             </Card>
 
             <DrawerAdminApp
                 openFormDrawer={openFormDrawer}
+                setData={setData}
                 setOpenFormDrawer={setOpenFormDrawer}
                 handleCallService={handleCallService}
             />

@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useState } from 'react';
 import { GuestType, appService, updateGuestTypeDto } from '../../../constants/services';
 import { axiosServiceCheck } from '../../../constants/axios-service-check';
 import { Space, Spin, message, Input, Button, theme, Card, Typography } from 'antd';
-import { useWindowSize } from '../../hooks/window-size-hook';
+import useWindowSize from '../../hooks/window-size-hook';
 import { allFontName } from '../../font/use-font';
 
 interface IProps {
@@ -38,8 +38,7 @@ const contentStyle: CSSProperties = {
 
 const WishesPage = ({ userData }: IProps) => {
     const themeToken = useToken().token
-    const windowSize = useWindowSize()
-    const isMobileSize = windowSize.width && windowSize.width <= 576
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const [data, setData] = useState<GuestType[] | undefined>(undefined)
     const [wishes, setWishes] = useState<string | undefined>('Chúc Sơn và Duyên hạnh phúc!')
@@ -118,7 +117,7 @@ const WishesPage = ({ userData }: IProps) => {
                 <div 
                     style={{ 
                         width: '100%', 
-                        height: isMobileSize ? 252 : 800, 
+                        height: isSmallSize ? 252 : 800, 
                         overflow: 'auto', 
                         display: 'flex', 
                         gap: 6, 
@@ -131,8 +130,8 @@ const WishesPage = ({ userData }: IProps) => {
                         data.filter(x => x.wishes).map(item => (
                             <Card size='small' bordered={false} key={item.Id} style={{ width: '100%', backgroundColor: '#fff1dfe6' }}>
                                 <Space size={4} direction='vertical' style={{ width: '100%' }}>
-                                    <Text strong style={{ fontSize: isMobileSize ? 16 : 20, ...allFontName.fontAmatic }}>{item.name}</Text>
-                                    <Text style={{ fontSize: isMobileSize ? 16 : 24, ...allFontName.fontCharm }}>{item.wishes}</Text>
+                                    <Text strong style={{ fontSize: isSmallSize ? 16 : 20, ...allFontName.fontAmatic }}>{item.name}</Text>
+                                    <Text style={{ fontSize: isSmallSize ? 16 : 24, ...allFontName.fontCharm }}>{item.wishes}</Text>
                                 </Space>
                             </Card>
                         ))

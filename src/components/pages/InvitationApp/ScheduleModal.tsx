@@ -2,7 +2,7 @@ import { CSSProperties, useState } from 'react'
 import { Button, Carousel, FloatButton, Modal, Space, Statistic, Typography, theme } from 'antd'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { useWindowSize } from '../../hooks/window-size-hook'
+import useWindowSize from '../../hooks/window-size-hook'
 import { allFontName } from '../../font/use-font';
 import { CloseOutlined } from '@ant-design/icons'
 import './scheduleModal.css'
@@ -40,8 +40,7 @@ const contentStyle: CSSProperties = {
 
 const ScheduleModal = () => {
     const themeToken = useToken().token
-    const windowSize = useWindowSize()
-    const isSmallSize = windowSize.width && windowSize.width <= 576
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const [openSchedule, setOpenSchedule] = useState(false)
 

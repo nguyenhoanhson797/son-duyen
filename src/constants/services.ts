@@ -1,15 +1,16 @@
 import axios from "axios";
-import { addGuestEndpoint, deleteGuestEndpoint, getAllGuestEndpoint, getGuestByIdEndpoint, updateGuestEndpoint } from "./app-config";
+import { 
+    addGuestEndpoint, 
+    deleteGuestEndpoint, 
+    getAllGuestEndpoint, 
+    getGuestByIdEndpoint, 
+    updateGuestEndpoint 
+} from "./app-config";
 
 export type MetadataType = {
-    paging: {
-      cursor: {
-        current: string;
-        next: string;
-        prev: string;
-      };
-      limit: number;
-    };
+    page: string;
+    nextPage: string;
+    prevPage: string;
 };
 
 export type searchQuery = {
@@ -17,6 +18,7 @@ export type searchQuery = {
     phone?: number
     email?: string
     pageToken?: string
+    page?: string
 };
 
 export interface GuestType {
@@ -43,7 +45,7 @@ export const appService = () => {
 
     const getListKhachMoi = async (query?: searchQuery) => {
         const response = await axios.get<{
-            metadata: MetadataType;
+            paging: MetadataType;
             data: GuestType[];
         }>(`${getAllGuestEndpoint}`, {
             params: query

@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Drawer, InputNumber, Row, Select, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useWindowSize } from '../../hooks/window-size-hook';
+import useWindowSize from '../../hooks/window-size-hook';
 
 interface IProps {
     openSetting: boolean
@@ -19,8 +19,7 @@ const SettingDrawer = ({
     setValueRange, 
     setAvoidValue 
 }: IProps) => {
-    const windowSize = useWindowSize()
-    const isSmallSize = windowSize.width && windowSize.width <= 378
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const [formRange, setFormRange] = useState<[number, number]>([0, 0])
     const [formAvoids, setFormAvoids] = useState<number[]>([])

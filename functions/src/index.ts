@@ -72,38 +72,102 @@ functions.https.onRequest(async (req, res) => {
 });
 
 // GET-all endpoint to retrieve all guests
-exports.getAllGuests =
-functions.https.onRequest(async (req, res) => {
+// exports.getAllGuests =
+// functions.https.onRequest(async (req, res) => {
+//   res.set("Access-Control-Allow-Origin", "*");
+//   corsHandler(req, res, async () => {
+//     try {
+//       const searchQuery = req.query.name ?
+//         req.query.name as string : undefined;
+
+//       const collectionRef = admin.firestore().collection("guests");
+//       let query: admin.firestore.Query<admin.firestore.DocumentData> =
+//       collectionRef;
+//       if (searchQuery) {
+//         query = collectionRef.where(
+//           "name", ">=", searchQuery
+//         ).where(
+//           "name", "<", searchQuery + "\uf8ff"
+//         );
+//       }
+//       const guests = await query.get();
+//       const allGuests: GuestType[] = [];
+//       guests.forEach((guest) => {
+//         allGuests.push({id: guest.id, ...guest.data()} as GuestType);
+//       });
+
+//       res.status(200).send({
+//         data: allGuests,
+//       });
+//     } catch (error) {
+//       res.status(400).send(`Error getting guests: ${error}`);
+//     }
+//   });
+// });
+
+exports.getAllGuests = functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
       const searchQuery = req.query.name ?
-        req.query.name as string : undefined;
+        (req.query.name as string) :
+        undefined;
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      const page = req.query.page ? parseInt(req.query.page as string) : 1;
 
       const collectionRef = admin.firestore().collection("guests");
       let query: admin.firestore.Query<admin.firestore.DocumentData> =
-      collectionRef;
+        collectionRef;
+
       if (searchQuery) {
-        query = collectionRef.where(
-          "name", ">=", searchQuery
-        ).where(
-          "name", "<", searchQuery + "\uf8ff"
-        );
+        query = query.where("name", ">=", searchQuery)
+          .where("name", "<", searchQuery + "\uf8ff");
       }
+
+      const startAfterDoc = await collectionRef
+        .orderBy("name")
+        .limit((page - 1) * limit)
+        .get()
+        .then((snapshot) => snapshot.docs[snapshot.docs.length - 1]);
+
+      if (startAfterDoc) {
+        query = query.startAfter(startAfterDoc);
+      }
+
+      query = query.limit(limit);
+
       const guests = await query.get();
       const allGuests: GuestType[] = [];
+      let nextPage: number | null = null;
+      let prevPage: number | null = null;
+
       guests.forEach((guest) => {
         allGuests.push({id: guest.id, ...guest.data()} as GuestType);
       });
 
+      if (guests.docs.length > 0) {
+        nextPage = page + 1;
+        if (page > 1) {
+          prevPage = page - 1;
+        }
+      }
+
+      const paging = {
+        page: page,
+        nextPage: nextPage,
+        prevPage: prevPage,
+      };
+
       res.status(200).send({
         data: allGuests,
+        paging: paging,
       });
     } catch (error) {
       res.status(400).send(`Error getting guests: ${error}`);
     }
   });
 });
+
 
 // DELETE endpoint to delete an existing guest
 exports.deleteGuest =

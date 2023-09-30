@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
-import { useWindowSize } from '../../hooks/window-size-hook';
 import { useSpring, animated } from '@react-spring/web'
+import useWindowSize from '../../hooks/window-size-hook';
 
 const animationType = {
     fade: {
@@ -45,8 +45,7 @@ interface IProps {
 }
 
 const AnimationBox = ({ boxKey, imgUrl, disableAnimation, animationSet, isVertical }: IProps) => {
-    const windowSize = useWindowSize()
-    const isMobileSize = windowSize.width && windowSize.width <= 960
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const [inView, setInView] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -91,7 +90,7 @@ const AnimationBox = ({ boxKey, imgUrl, disableAnimation, animationSet, isVertic
             maxWidth: '96vw',
             height: 'auto',
             backgroundImage: `url('https://cdn.jsdelivr.net/gh/nguyenhoanhson797/image@main/${imgUrl}')`,
-            backgroundSize: isVertical ? 'cover' : (isMobileSize ? 'contain' : 'cover'),
+            backgroundSize: isVertical ? 'cover' : (isSmallSize ? 'contain' : 'cover'),
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             position: 'relative',

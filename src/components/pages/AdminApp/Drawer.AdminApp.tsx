@@ -9,6 +9,7 @@ interface IProps {
     openFormDrawer: OpenFormDrawerType | undefined
     setOpenFormDrawer: React.Dispatch<React.SetStateAction<OpenFormDrawerType | undefined>>
     handleCallService: () => void
+    setData: React.Dispatch<React.SetStateAction<GuestType[] | undefined>>
 }
 
 const requireMark = <span style={{color: 'red'}}>*</span>
@@ -16,8 +17,8 @@ const requireMark = <span style={{color: 'red'}}>*</span>
 const DrawerAdminApp = ({
     openFormDrawer,
     setOpenFormDrawer,
-    handleCallService
-
+    handleCallService,
+    setData
 }: IProps) => {
     const [form] = Form.useForm<GuestType>()
 
@@ -40,7 +41,7 @@ const DrawerAdminApp = ({
                     res: res,
                     followUpAction: () => {
                         message.success('Đã thêm khách mời')
-                        handleCallService()
+                        setData((prev) => prev ? [res.data, ...prev] : [res.data])
                         setOpenFormDrawer(undefined)
                     }
                 })
@@ -94,7 +95,6 @@ const DrawerAdminApp = ({
             open={!!openFormDrawer}
             onClose={() => setOpenFormDrawer(undefined)}
             title={getDrawerTitle()}
-            width={''}
         >
             <Form
                 name='info'

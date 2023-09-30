@@ -3,7 +3,7 @@ import { Button, Card, Drawer, FloatButton, Modal, Space, Typography, message, t
 import SettingDrawer from './SettingDrawer';
 import { SettingOutlined, CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
 import ReactCanvasConfetti from "react-canvas-confetti"
-import { useWindowSize } from '../../hooks/window-size-hook';
+import useWindowSize from '../../hooks/window-size-hook';
 
 const containerStyle: CSSProperties = { 
     width: '100vw', 
@@ -33,8 +33,7 @@ const canvasStyles: CSSProperties  = {
 
 const LotoApp = () => {
     const themeToken = theme.useToken().token
-    const windowSize = useWindowSize()
-    const isSmallSize = windowSize.width && windowSize.width <= 576
+    const { isSmallSize } = useWindowSize({ options: { needWindowSize: false } })
 
     const resultCardType: CSSProperties = { 
         overflow: 'hidden',
@@ -312,7 +311,6 @@ const LotoApp = () => {
 
             <Drawer
                 placement="bottom"
-                // style={{ overflow: 'hidden', position: 'fixed' }}
                 rootStyle={{ overflow: 'hidden', position: 'fixed' }}
                 contentWrapperStyle={{ position: 'fixed' }}
                 mask={isExpandDrawer}
@@ -340,9 +338,17 @@ const LotoApp = () => {
                     </Space>
                 }
             >
-                <Space size={24} wrap style={{ maxHeight: '30vh', overflow: 'auto'}}>
+                <Space size={24} wrap 
+                    style={{
+                        minHeight: 'max-content', 
+                        height: '100%', 
+                        overflow: 'auto', 
+                        justifyContent: 'flex-start', 
+                        alignItems: 'start'
+                    }}
+                >
                     {history.map(item => (
-                        <Card 
+                        <Card
                             key={item} 
                             style={{ 
                                 border: 'none', 
@@ -371,7 +377,7 @@ const LotoApp = () => {
 
             <FloatButton
                 shape="square"
-                style={{ right: 24, bottom: '90vh' }}
+                style={{ right: 24, bottom: '85vh' }}
                 onClick={() => setOpenSetting(true)}
                 type='primary'
                 icon={<SettingOutlined />}
