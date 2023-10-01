@@ -60,7 +60,6 @@ const DrawerAdminApp = ({
                     res: res,
                     followUpAction: () => {
                         message.success('Đã chỉnh sửa thông tin')
-                        // handleCallService()
                         setData((prev) => {
                             const index = prev?.findIndex((x) => x.Id === id || x.id === id)
                             if (!index || index < 0) {

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Dayjs } from 'dayjs';
+
 import { 
     addGuestEndpoint, 
     deleteGuestEndpoint, 
@@ -9,7 +11,6 @@ import {
 } from "./app-config";
 
 export type MetadataType = {
-    page: string;
     nextPage: string;
     prevPage: string;
 };
@@ -19,7 +20,8 @@ export type searchQuery = {
     phone?: number
     email?: string
     pageToken?: string
-    page?: string
+    nextPage?: string
+    prevPage?: string
 };
 
 export interface GuestType {
@@ -30,6 +32,7 @@ export interface GuestType {
     email: string
     note: string
     wishes: string
+    createdAt: Dayjs
 }
 
 export interface WishesType extends Pick<GuestType, 'id' | 'name' | 'wishes'> {}

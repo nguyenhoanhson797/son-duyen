@@ -30,9 +30,9 @@ const TableAdminApp = ({
 
     const { isSmallSize } = useWindowSize({ smallSize: 800, options: { needWindowSize: false } })
 
-    const handleDelete = (data: GuestType) => {
+    const handleDelete = (item: GuestType) => {
         Modal.confirm({
-            title: `Xóa khách mời: ${data.name}`,
+            title: `Xóa khách mời: ${item.name}`,
             content: 'Bạn có muốn xóa khách mời này không?',
             okText: 'Xóa',
             cancelText: 'Quay lại',
@@ -44,13 +44,22 @@ const TableAdminApp = ({
             className: 'defaultModal',
             onOk(){
                 setIsLoading(true)
-                appService().deleteKhachMoi(data.id)
+                appService().deleteKhachMoi(item.id)
                     .then(res => {
                         axiosServiceCheck({
                             res: res,
                             followUpAction: () => {
                                 message.success('Đã xóa khách mời')
-                                handleCallService()
+                                if (!data || data.length < 5) {
+                                    handleCallService()
+                                    return
+                                }
+                                setData((prev) => {
+                                    const clone = prev?.filter(
+                                        (x) => x.id !== item.id || x.Id !== item.id
+                                    )
+                                    return clone
+                                })
                             }
                         })
                     })

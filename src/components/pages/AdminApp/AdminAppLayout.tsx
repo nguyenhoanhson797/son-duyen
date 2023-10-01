@@ -68,8 +68,8 @@ const AdminAppLayout = () => {
     const pagingBtns = (
         <PagingCursorBtns
             metaData={metaData}
-            onClickNext={() => handleCallService({ page: metaData?.nextPage })}
-            onClickPrev={() => handleCallService({ page: metaData?.prevPage })}
+            onClickNext={() => handleCallService({ nextPage: metaData?.nextPage })}
+            onClickPrev={() => handleCallService({ prevPage: metaData?.prevPage })}
         />
     )
 
