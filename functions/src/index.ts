@@ -1,7 +1,9 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as cors from "cors";
-import {Dayjs} from "dayjs";
+import * as dayjs from "dayjs";
+
+type Dayjs = dayjs.Dayjs
 
 interface GuestType {
   id: string
@@ -28,14 +30,19 @@ functions.https.onRequest(async (req, res) => {
   corsHandler(req, res, async () => {
     try {
       const guest = req.body;
-      const result = await admin.firestore().collection("guests").add(guest);
+      const result =
+        await admin.firestore().collection("guests").add(guest);
       const id = result.id;
-      await admin.firestore().collection("guests").doc(id).update({id: id});
-      const collectionRef = admin.firestore().collection("guests");
-      const resResult = collectionRef
-        .where(admin.firestore.FieldPath.documentId(), "==", id);
-      const data = await resResult.get();
-      res.status(200).send(data.docs[0].data());
+      await
+      admin
+        .firestore()
+        .collection("guests")
+        .doc(id)
+        .update({id: id, createdAt: dayjs().toISOString()});
+      // const collectionRef = admin.firestore().collection("guests");
+      // const resResult = result.get();
+      const data = await result.get();
+      res.status(200).send(data.data());
     } catch (error) {
       res.status(400).send(undefined);
     }
@@ -48,14 +55,12 @@ functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   corsHandler(req, res, async () => {
     try {
+      const collectionRef = admin.firestore().collection("guests");
       const guestId = req.query.id as string;
       const guest = req.body;
-      await admin.firestore().collection("guests").doc(guestId).update(guest);
-      const collectionRef = admin.firestore().collection("guests");
-      const result = collectionRef
-        .where(admin.firestore.FieldPath.documentId(), "==", guestId);
-      const data = await result.get();
-      res.status(200).send(data.docs[0].data());
+      await collectionRef.doc(guestId).update(guest);
+      const data = await collectionRef.doc(guestId).get();
+      res.status(200).send(data.data());
     } catch (error) {
       res.status(400).send(undefined);
     }
@@ -70,13 +75,11 @@ functions.https.onRequest(async (req, res) => {
     try {
       const collectionRef = admin.firestore().collection("guests");
       const id = req.query.id as string;
-      const guest = collectionRef
-        .where(admin.firestore.FieldPath.documentId(), "==", id);
-      const data = await guest.get();
-      if (data.empty) {
+      const data = await collectionRef.doc(id).get();
+      if (!data.exists) {
         res.status(404).send("Guest not found");
       } else {
-        const resData = data.docs[0].data();
+        const resData = data.data();
         res.status(200).send(resData);
       }
     } catch (error) {
@@ -134,19 +137,16 @@ functions.https.onRequest(async (req, res) => {
       const nextPage = req.query.nextPage;
       const prevPage = req.query.prevPage;
 
-      // Check if there is a 'next' cursor
+      // TODO Check if there is a paging cursor
       if (nextPage) {
         const startAfterDoc =
           await collectionRef.doc(nextPage.toString()).get();
         query = query.limit(limit).startAt(startAfterDoc);
-        // Check if there is a 'previous' cursor
       } else if (prevPage) {
         const endOfDoc =
           await collectionRef.doc(prevPage.toString()).get();
         query = query.limitToLast(limit).endAt(endOfDoc);
-      }
-
-      if (!nextPage && !prevPage) {
+      } else {
         query = query.limit(limit);
       }
 
@@ -156,30 +156,26 @@ functions.https.onRequest(async (req, res) => {
       }
 
       const guests = await query.get();
-      const allGuests: GuestType[] = [];
-
-      guests.forEach((guest) => {
-        allGuests.push({id: guest.id, ...guest.data()} as GuestType);
+      const allGuests: GuestType[] = guests.docs.map((guest) => {
+        return {id: guest.id, ...guest.data()} as GuestType;
       });
 
       try {
         // TODO Define new cursor
         if (allGuests.length >= 1) {
           // Id of last item in list
-          const lastItemId = guests.docs[guests.docs.length - 1].id;
+          const lastItem = guests.docs[guests.docs.length - 1];
           // Id of first item in list
-          const firstItemId = guests.docs[0].id;
+          const firstItem = guests.docs[0];
 
           if (allGuests.length === limit) {
             const collectionRef1 = admin.firestore().collection("guests");
-            // Get last doc
-            const lastDoc = await collectionRef1.doc(lastItemId).get();
             // Find the next doc
             const nextToLastDocSnap =
               await
               collectionRef1
                 .orderBy("name")
-                .startAfter(lastDoc.data()?.name)
+                .startAfter(lastItem)
                 .limit(1)
                 .get();
             const nextToLastDocId = nextToLastDocSnap.docs[0]?.id;
@@ -189,14 +185,12 @@ functions.https.onRequest(async (req, res) => {
             }
           }
           const collectionRef2 = admin.firestore().collection("guests");
-          // Get first doc
-          const firstDoc = await collectionRef2.doc(firstItemId).get();
           // Find the prev doc
           const prevFromFirstDocSnap =
             await
             collectionRef2
               .orderBy("name")
-              .endBefore(firstDoc.data()?.name)
+              .endBefore(firstItem)
               .limitToLast(1)
               .get();
           const prevFromFirstDocId = prevFromFirstDocSnap.docs[0]?.id;

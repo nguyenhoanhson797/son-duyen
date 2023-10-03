@@ -41,7 +41,7 @@ export interface updateGuestTypeDto {
     name: string
     phone?: number
     email?: string
-    note: string
+    note?: string
 }
 
 export interface updateGuestWishesDto {

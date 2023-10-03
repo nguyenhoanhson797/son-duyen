@@ -62,7 +62,7 @@ const DrawerAdminApp = ({
                         message.success('Đã chỉnh sửa thông tin')
                         setData((prev) => {
                             const index = prev?.findIndex((x) => x.Id === id || x.id === id)
-                            if (!index || index < 0) {
+                            if (index === undefined || index < 0) {
                                 return prev
                             }
                             const clone = prev?.map((item) => {

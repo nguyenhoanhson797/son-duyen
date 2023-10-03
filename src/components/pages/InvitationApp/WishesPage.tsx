@@ -128,10 +128,24 @@ const WishesPage = ({ userData }: IProps) => {
                 }>
                     {data ? (
                         data.filter(x => x.wishes).map(item => (
-                            <Card size='small' bordered={false} key={item.id} style={{ width: '100%', backgroundColor: '#fff1dfe6' }}>
+                            <Card
+                                size='small'
+                                bordered={false}
+                                key={item.id}
+                                style={{ width: '100%', backgroundColor: '#fff1dfe6' }}
+                            >
                                 <Space size={4} direction='vertical' style={{ width: '100%' }}>
-                                    <Text strong style={{ fontSize: isSmallSize ? 16 : 20, ...allFontName.fontAmatic }}>{item.name}</Text>
-                                    <Text style={{ fontSize: isSmallSize ? 16 : 24, ...allFontName.fontCharm }}>{item.wishes}</Text>
+                                    <Text
+                                        strong
+                                        style={{ fontSize: isSmallSize ? 16 : 20, ...allFontName.fontAmatic }}
+                                    >
+                                            {item.name}
+                                    </Text>
+                                    <Text
+                                        style={{ fontSize: isSmallSize ? 16 : 24, ...allFontName.fontCharm }}
+                                    >
+                                        {item.wishes}
+                                    </Text>
                                 </Space>
                             </Card>
                         ))

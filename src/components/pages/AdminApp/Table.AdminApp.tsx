@@ -56,14 +56,16 @@ const TableAdminApp = ({
                                 }
                                 setData((prev) => {
                                     const clone = prev?.filter(
-                                        (x) => x.id !== item.id || x.Id !== item.id
+                                        (x) => x.Id !== item.id
+                                    ).filter(
+                                        (x) => x.id !== item.id
                                     )
                                     return clone
                                 })
                             }
                         })
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsLoading(false)) 
             }
         })
     }
@@ -90,7 +92,7 @@ const TableAdminApp = ({
                 label: 'Copy link thiệp',
                 icon: <CopyOutlined />,
                 onClick: () => {
-                    navigator.clipboard.writeText(APP_URL+'thiep-moi/'+data.id)
+                    navigator.clipboard.writeText(`${APP_URL}thiep-moi/${data.Id || data.id}`)
                         .then(() => {
                             message.success(`Đã copy link thiệp của [ ${data.name} ] vào khay nhớ tạm`);
                         })
@@ -101,7 +103,7 @@ const TableAdminApp = ({
             },
             {
                 key: '3',
-                label: <Link href={APP_URL+'thiep-moi/'+data.id} target='_blank' >Đi tới thiệp</Link >,
+                label: <Link href={`${APP_URL}thiep-moi/${data.Id || data.id}`} target='_blank' >Đi tới thiệp</Link >,
                 icon: <BranchesOutlined style={{color: '#1677ff'}}/>,
             },
             {
